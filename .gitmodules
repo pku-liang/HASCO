@@ -1,0 +1,9 @@
+[submodule "src/Ax"]
+	path = src/Ax
+	url = https://github.com/facebook/Ax.git
+[submodule "src/tvm"]
+	path = src/tvm
+	url = https://github.com/KireinaHoro/tvm.git
+[submodule "src/maestro"]
+	path = src/maestro
+	url = https://github.com/maestro-project/maestro.git
