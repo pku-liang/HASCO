@@ -2,7 +2,6 @@ from utils.logger import logger
 
 from benchmark.computations import conv2d_compute, mm_compute, dwconv_compute, mttkrp_compute, ttm_compute
 from codesign.config import supported_models
-import re
 
 class Workload:
 
