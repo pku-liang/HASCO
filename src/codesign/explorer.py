@@ -32,20 +32,7 @@ from codesign.ax_extend import eval_exp, run_trial, get_non_dominated, get_size
 from codesign.config import intrinsic_lib, eval_methods, all_metrics, verbose, sw_dir
 from codesign.hw_evaluation import evaluation_function, gen_software
 
-
-from torch import Tensor
 from typing import Optional, Any
-
-
-from botorch.models.gp_regression import SingleTaskGP
-from botorch.fit import fit_gpytorch_model
-from botorch.acquisition.monte_carlo import qProbabilityOfImprovement
-from botorch.acquisition.analytic import ProbabilityOfImprovement
-from gpytorch.mlls.exact_marginal_log_likelihood import ExactMarginalLogLikelihood
-from botorch.sampling.samplers import SobolQMCNormalSampler
-from botorch.models.gpytorch import GPyTorchModel
-from gpytorch.distributions import MultivariateNormal
-
 
 from utils.logger import logger
  
