@@ -22,7 +22,7 @@ Requires: Python >= 3.5,
 ```
    
 2. Install TVM from HASCO/src/tvm. The instructions are given [here](https://tvm.apache.org/docs/install/from_source.html#install-from-source).
-3. Compile Maestro from HASCO/src/maestro following these [instructions](http://maestro.ece.gatech.edu/docs/build/html/installation.html).
+3. Compile Maestro from HASCO/src/maestro following these [instructions](http://maestro.ece.gatech.edu/docs/build/html/installation.html). Then, edit the maestro_home [here](https://github.com/pku-liang/HASCO/blob/81180f313ec288403db5061995382c28aff633e2/src/codesign/config.py#L11), if necessary.
 4. Intall Ax from HASCO/src/Ax.
 ```
    python setup.py install
