@@ -56,7 +56,7 @@ def evaluation_function_model(parameterization, benchmark, generator):
 
             rst =  {"latency": (l, 0.0), "throughput": (t, 0.0), "power": (p, 0.0), "area": (a, 0.0)} 
             
-            PARAM_TABLE[tag] = (rst, zip(schedules, all_tensors))
+            PARAM_TABLE[tag] = (rst, list(zip(schedules, all_tensors)))
 
         '''clean up'''
         if verbose == False: 
@@ -66,9 +66,9 @@ def evaluation_function_model(parameterization, benchmark, generator):
 
 def gen_software(tag, is_print=False):
     global PARAM_TABLE
-    st_zip = PARAM_TABLE[tag][1]
+    st_list = PARAM_TABLE[tag][1]
     all_software = []
-    for (schedule, tensors) in st_zip:
+    for (schedule, tensors) in st_list:
         if not isinstance(schedule, tuple):
             schedule = (schedule, )
             tensors = (tensors, )
