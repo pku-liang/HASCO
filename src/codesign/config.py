@@ -21,3 +21,8 @@ mapping_dir = "./mapping/"
 sw_dir = rst_dir+"./software/"
 
 verbose = False 
+
+
+for path in [rst_dir, rst_dir + model_config_dir, rst_dir + mapping_dir, rst_dir + sw_dir]:
+    if not os.path.exists(path) or not os.path.isdir(path):
+        os.mkdir(path)
