@@ -8,7 +8,7 @@ def parse_params(acc_type, params):
             return params
         else:
             x = params[0]
-            params.insert(x, 1)
+            params.insert(1, x)
             return params
     else:
         x = params.get(f"x")
