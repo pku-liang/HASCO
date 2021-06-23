@@ -28,6 +28,7 @@ Requires: Python >= 3.5,
    python setup.py install
 ```
    
+You can also use docker like [this](https://github.com/pku-liang/HASCO/issues/3#issuecomment-864657367) if you find trouble in the installation. 
 
 ## Tests
 
@@ -46,4 +47,14 @@ This version evaluates HASCO-generated solutions with the Maestro tool. We can a
 
 ## Citing HASCO
 
-If you find HASCO useful for your project, please cite our paper. Since the conference verison of HASCO is not available right now, you can find the arxiv version [here](https://arxiv.org/abs/2105.01585). 
+If you find HASCO useful for your project, please cite our paper. 
+```
+@inproceedings{xiao2021,
+  title={HASCO: Towards Agile HArdware and Software CO-design for Tensor Computation},
+  author={Qingcheng, Xiao and Size, Zheng and Bingzhe, Wu and Pengcheng, Xu and Xuehai, Qian and Yun, Liang},
+  booktitle={2021 ACM/IEEE 48th Annual International Symposium on Computer Architecture (ISCA)},
+  year={2021},
+  organization={IEEE}
+}
+```
+You can also find the arxiv version [here](https://arxiv.org/abs/2105.01585). 
