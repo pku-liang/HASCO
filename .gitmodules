@@ -1,6 +1,6 @@
 [submodule "src/Ax"]
 	path = src/Ax
-	url = https://github.com/facebook/Ax.git
+	url = https://github.com/KireinaHoro/Ax.git
 [submodule "src/tvm"]
 	path = src/tvm
 	url = https://github.com/KireinaHoro/tvm.git
