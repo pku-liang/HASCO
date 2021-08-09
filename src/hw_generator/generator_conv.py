@@ -23,8 +23,8 @@ def conv_interface(f_n, f_c, f_y, f_x, f_k, f_r, f_s,
 
     # print(tA.shape, tB.shape, tC.shape)
     strideA1 = tvm.var("strideA1")
-    strideA2 = tvm.var("strideA2")  
-    strideA3 = tvm.var("strideA3")   
+    strideA2 = tvm.var("strideA2")
+    strideA3 = tvm.var("strideA3")
     sA = tvm.decl_buffer(tA.shape, tA.dtype,
                         name="sA",
                         offset_factor=1,
@@ -79,7 +79,7 @@ def conv_interface(f_n, f_c, f_y, f_x, f_k, f_r, f_s,
     last_pad_r = 0 if l_r % d_r == 0 else (d_r - l_r % d_r)
     last_pad_s = 0 if l_s % d_s == 0 else (d_s - l_s % d_s)
 
-    
+
     iter_n = tvm.if_then_else(c_n, last_iter_n, iter_n)
     iter_c = tvm.if_then_else(c_c, last_iter_c, iter_c)
     iter_y = tvm.if_then_else(c_y, last_iter_y, iter_y)
@@ -97,20 +97,20 @@ def conv_interface(f_n, f_c, f_y, f_x, f_k, f_r, f_s,
     pad_s = tvm.if_then_else(c_s, last_pad_s, pad_s)
 
 # reset-update-finalize
-    def interface_func(ins, outs): 
+    def interface_func(ins, outs):
         sa, sb = ins
         sc, = outs
 
         def _body():
             ib = tvm.ir_builder.create()
 
-            ib.emit(tvm.call_extern(dtype, "tensorized_CONV",   
+            ib.emit(tvm.call_extern(dtype, "tensorized_CONV",
                                     sa.access_ptr("r"),
                                     sb.access_ptr("r"),
                                     sc.access_ptr("rw"),
                                     1,
                                     iter_n, iter_c, iter_y, iter_x, iter_k, iter_r, iter_s,
-                                    pad_n, pad_c, pad_y, pad_x, pad_k, pad_r, pad_s, 
+                                    pad_n, pad_c, pad_y, pad_x, pad_k, pad_r, pad_s,
                                     True, False))
             return ib.get()
 
@@ -140,51 +140,51 @@ def conv_interface(f_n, f_c, f_y, f_x, f_k, f_r, f_s,
 
 
 
-def generate_conv_interface(N, C, Y, X, K, R, S, fN, fC, fY, fX, fK, fR, fS, 
-                             axisN, axisC, axisY, axisX, axisK, axisR, axisS, 
+def generate_conv_interface(N, C, Y, X, K, R, S, fN, fC, fY, fX, fK, fR, fS,
+                             axisN, axisC, axisY, axisX, axisK, axisR, axisS,
                              dN, dC, dY, dX, dK, dR, dS, sp_kb, local_kb, dtype):
     """
     N, C, Y, X, K, R, S: the dimensions mapped to  n, c, y, x, k, r, s
     fN, fC, fY, fX, fK, fR, fS: interface size (fN, fC, fY + fR, fX + fS) * (fR, fS, fC, fK)
-    axisN, axisC, axisY, axisX, axisK, axisR, axisS: AST nodes 
+    axisN, axisC, axisY, axisX, axisK, axisR, axisS: AST nodes
     dN, dC, dY, dX, dK, dR, dS: intrinsic size
     """
 
     if verbose:
-        assert fN * fX * fY * fC + fK * fC * fR * fS <= sp_kb * 8192 / bits_map[dtype], 'data too large for scratchpad'  
-        assert dN * dX * dY * dC + dK * dC * dR * dS <= local_kb * 8192 / bits_map[dtype], 'data too large for local memory'  
+        assert fN * fX * fY * fC + fK * fC * fR * fS <= sp_kb * 8192 / bits_map[dtype], 'data too large for scratchpad'
+        assert dN * dX * dY * dC + dK * dC * dR * dS <= local_kb * 8192 / bits_map[dtype], 'data too large for local memory'
     else:
-        assert fN * fX * fY * fC + fK * fC * fR * fS <= sp_kb * 8192 / bits_map[dtype] 
+        assert fN * fX * fY * fC + fK * fC * fR * fS <= sp_kb * 8192 / bits_map[dtype]
         assert dN * dX * dY * dC + dK * dC * dR * dS <= local_kb * 8192 / bits_map[dtype]
-    
+
 
 
     last_n = N % fN   # the last iteration of N
     cond_n = tvm.expr.EQ(axisN, N // fN) if last_n != 0 else False  # n condition statement
     last_n = last_n if last_n != 0 else fN
 
-    last_c = C % fC    
-    cond_c = tvm.expr.EQ(axisC, C // fC) if last_c != 0 else False   
+    last_c = C % fC
+    cond_c = tvm.expr.EQ(axisC, C // fC) if last_c != 0 else False
     last_c = last_c if last_c != 0 else fC
 
-    last_y = Y % fY   
-    cond_y = tvm.expr.EQ(axisY, Y // fY) if last_y != 0 else False   
+    last_y = Y % fY
+    cond_y = tvm.expr.EQ(axisY, Y // fY) if last_y != 0 else False
     last_y = last_y if last_y != 0 else fY
 
-    last_x = X % fX   
-    cond_x = tvm.expr.EQ(axisX, X // fX) if last_x != 0 else False  
+    last_x = X % fX
+    cond_x = tvm.expr.EQ(axisX, X // fX) if last_x != 0 else False
     last_x = last_x if last_x != 0 else fX
 
     last_k = K % fK
-    cond_k = tvm.expr.EQ(axisK, K // fK) if last_k != 0 else False   
+    cond_k = tvm.expr.EQ(axisK, K // fK) if last_k != 0 else False
     last_k = last_k if last_k != 0 else fK
 
     last_r = R % fR
-    cond_r = tvm.expr.EQ(axisR, R // fR) if last_r != 0 else False   
+    cond_r = tvm.expr.EQ(axisR, R // fR) if last_r != 0 else False
     last_r = last_r if last_r != 0 else fR
 
     last_s = S % fS
-    cond_s = tvm.expr.EQ(axisS, S // fS) if last_s != 0 else False   
+    cond_s = tvm.expr.EQ(axisS, S // fS) if last_s != 0 else False
     last_s = last_s if last_s != 0 else fS
 
     return conv_interface(fN, fC, fY, fX, fK, fR, fS, last_n, last_c, last_y, last_x, last_k, last_r, last_s,
@@ -193,14 +193,14 @@ def generate_conv_interface(N, C, Y, X, K, R, S, fN, fC, fY, fX, fK, fR, fS,
 
 
 class CONVGenerator(generator):
-# generate accelerators with CONV intrinsics 
+# generate accelerators with CONV intrinsics
 
     def __init__(self, stt_matrix=None, dtype="int8"):
         super().__init__("CONV", conv_intrinsic, generate_conv_interface, stt_matrix, dtype)
 
 
 
-    def instantiate(self, params, tag): 
+    def instantiate(self, params, tag):
 
         x, y, sp_kb, sp_banks, dma_width, dma_bytes, local_kb, dataflow, dtype = parse_params(self.type, params)
 
@@ -212,14 +212,14 @@ class CONVGenerator(generator):
                                   axisN, axisC, axisY, axisX, axisK, axisR, axisS,
                                   *intrin_size, sp_kb, local_kb, dtype)  # intrinsic size is hardware-specific
 
-        # 0s placeholder  the  dimensions of  mapped CONVs 
+        # 0s placeholder  the  dimensions of  mapped CONVs
         acc = accelerator(self, intrin_size, interface_3x3, params, tag, (0, 0, 0, 0, 0, 0, 0, dtype))
 
 
         # def interface_1x1(N, C, Y, X, K, R, S, fN, fC, fY, fX, fK, fR, fS,
         #                  axisN, axisC, axisY, axisX, axisK, axisR, axisS):
         #     from hw_generator.generator_gemm import generate_gemm_interface
-        #     return generate_gemm_interface(K, Y, C, fK, fY, fC, axisK, axisY, axisC, x, y, 1, sp_kb, local_kb, dtype) 
+        #     return generate_gemm_interface(K, Y, C, fK, fY, fC, axisK, axisY, axisC, x, y, 1, sp_kb, local_kb, dtype)
 
         # acc.add_intrinsic(gemm_intrinsic, (0, 0, 0, dtype), interface_1x1)
 

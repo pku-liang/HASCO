@@ -1,7 +1,7 @@
 import csv
 import numpy as np
 import random
-import os 
+import os
 import subprocess
 
 from fnmatch import fnmatchcase as match
@@ -23,7 +23,7 @@ def gen_config(path, params, acc_type, tag):
 
     pes = x * y
 
-    bw = 2 * sp_banks * bits_map[dtype]  # dual ports 
+    bw = 2 * sp_banks * bits_map[dtype]  # dual ports
     filename = path + "accelerator_" + tag + ".m"
     fp = open(rst_dir +filename, "w+")
     fp.write("NumPEs: " + str(pes))
@@ -38,7 +38,7 @@ def gen_config(path, params, acc_type, tag):
 class TENETModel:
     '''
     Stub for TENET model.
-    
+
     lib_path: TENET interface path.
     '''
     def __init__(self, lib_path):
@@ -73,7 +73,7 @@ class MaestroModel:
         px, py, _, _, _, _, _, dataflow, _ = parse_params(acc.type, acc.params)
         pe = str(int(px) * int(py))
 
-        uninvolved_dims = all_dims    
+        uninvolved_dims = all_dims
 
         for idx in loop_info['inner']:
             uninvolved_dims.discard(idx['origin'].upper())
@@ -82,7 +82,7 @@ class MaestroModel:
             '''handle GEMM accelerator dataflows'''
             # print(schedule)
 
-            if dataflow == "OS": 
+            if dataflow == "OS":
                 '''OS dataflow'''
 
                 for dim in uninvolved_dims:
@@ -97,8 +97,8 @@ class MaestroModel:
                 directives.append(f"SpatialMap(1, 1) {loop_info['inner'][1]['origin'].upper()};\n")
                 directives.append(f"SpatialMap(1, 1) {loop_info['inner'][0]['origin'].upper()};\n")
 
-                return 
-            else:     
+                return
+            else:
                 '''WS dataflow'''
 
                 for dim in uninvolved_dims:
@@ -107,7 +107,7 @@ class MaestroModel:
                 directives.append(f"TemporalMap({loop_info['inner'][1]['length']}, {py}) {loop_info['inner'][1]['origin'].upper()};\n")
                 directives.append(f"SpatialMap({loop_info['inner'][0]['length']}, {px}) {loop_info['inner'][0]['origin'].upper()};\n")
                 directives.append(f"TemporalMap({loop_info['inner'][2]['length']}, {loop_info['inner'][2]['length']}) {loop_info['inner'][2]['origin'].upper()};\n")
-        
+
                 directives.append(f"Cluster({loop_info['inner'][2]['length']}, P);\n")
                 directives.append(f"TemporalMap({py}, {py}) {loop_info['inner'][1]['origin'].upper()};\n")
                 directives.append(f"TemporalMap({px}, {px}) {loop_info['inner'][0]['origin'].upper()};\n")
@@ -137,32 +137,32 @@ class MaestroModel:
             directives.append(f"Cluster({pe}, P);\n")
             directives.append(f"SpatialMap(1, 1) K;\n")
 
-            return 
-            
+            return
+
         elif acc.type == "GEMV":
-            
+
             for dim in uninvolved_dims:
                 directives.append(f"TemporalMap(1, 1) {dim};\n")
-            
+
             directives.append(f"SpatialMap({loop_info['inner'][0]['length']}, {pe}) {loop_info['inner'][0]['origin'].upper()};\n")
             directives.append(f"TemporalMap({loop_info['inner'][1]['length']}, {loop_info['inner'][1]['length']}) {loop_info['inner'][1]['origin'].upper()};\n")
-    
+
             directives.append(f"Cluster({loop_info['inner'][1]['length']}, P);\n")
             directives.append(f"TemporalMap({pe}, {pe}) {loop_info['inner'][0]['origin'].upper()};\n")
             directives.append(f"SpatialMap(1, 1) {loop_info['inner'][1]['origin'].upper()};\n")
 
 
-            return 
+            return
 
-        elif acc.type == "DOT": 
+        elif acc.type == "DOT":
 
             directives.append(f"SpatialMap(1, 1) {uninvolved_dims.pop()};\n")
 
             for dim in uninvolved_dims:
                 directives.append(f"TemporalMap(1, 1) {dim};\n")
-            
+
             directives.append(f"TemporalMap({loop_info['inner'][1]['length']}, {loop_info['inner'][1]['length']}) {loop_info['inner'][1]['origin'].upper()};\n")
-    
+
             directives.append(f"Cluster({loop_info['inner'][1]['length']}, P);\n")
             directives.append(f"SpatialMap(1, 1) {loop_info['inner'][1]['origin'].upper()};\n")
             return
@@ -170,18 +170,18 @@ class MaestroModel:
 
 
 
-    def generate_single_mapping(self, workload, schedule, acc, directives): 
+    def generate_single_mapping(self, workload, schedule, acc, directives):
 
-        loop_info = parse_schedule(schedule) 
+        loop_info = parse_schedule(schedule)
 
         directives.append("Layer " + workload.name + " {\n")
         directives.append("Type: CONV \n")  # due to the model, all workloads expressed as conv
         dims = set(['N', 'C', 'Y', 'X', 'K', 'R', 'S'])
 
         if workload.type in ["CONV", "DWCONV"]:
-            directives.append("Stride { X: " + str(workload.args[7]) + ", Y: " + str(workload.args[7]) + " }\n") 
-        
-        directives.append("Dimensions { ") 
+            directives.append("Stride { X: " + str(workload.args[7]) + ", Y: " + str(workload.args[7]) + " }\n")
+
+        directives.append("Dimensions { ")
         if workload.type in ["CONV", "DWCONV"]:
             arg_names = signature(workload.compute).parameters
             # print(type(arg_names))
@@ -193,24 +193,24 @@ class MaestroModel:
         elif workload.type in ["GEMM", "GEMV"]:
             line = " K: " + str(workload.args[0]) + ", Y: " + str(workload.args[1]) + ", C: " + str(workload.args[2])
             for dim in ['N', 'X', 'R', 'S']:
-                line += " " + dim + ": 1, " 
+                line += " " + dim + ": 1, "
             directives.append(line)
 
         elif workload.type == "TTM":
             line = " K: "  + str(workload.args[2]) + ", Y: " + str(workload.args[0]) +", X: " + str(workload.args[1]) + ", C: " + str(workload.args[3])
             for dim in ['N', 'X', 'R', 'S']:
-                line += " " + dim + ": 1, " 
+                line += " " + dim + ": 1, "
             directives.append(line)
-            
+
         else:
             pass
-        
+
         directives.append(" }\n")
 
         directives.append("Dataflow {\n")
 
         self.generate_dsfl(loop_info, acc, dims, directives)
-        
+
         directives.append("}\n")
         directives.append("}\n")
 
@@ -221,16 +221,16 @@ class MaestroModel:
         if schedules == None:
             return self.max_val, self.min_val, self.max_val, self.max_val, self.max_val
         if not isinstance(schedules, list):
-            schedules = [schedules] 
+            schedules = [schedules]
 
         '''generate mapping files'''
         mapping_fp = open(rst_dir + mapping_file, "w+")
         mapping_fp.write("Network " + benchmark.name + " {\n")
         for (wl, s) in zip(benchmark.workloads, schedules):
             directives = []
-            if wl.type != "MTTKRP" :  
+            if wl.type != "MTTKRP" :
                 self.generate_single_mapping(wl, s, acc, directives)
-            else: # special process for mttkrp 
+            else: # special process for mttkrp
                 m, n, k, l, dtype, layout = wl.args
                 if wl.stage != 2:
                     s1 = s[0] if wl.stage == 0 else s
@@ -244,10 +244,10 @@ class MaestroModel:
             for line in directives:
                 mapping_fp.write(line)
         mapping_fp.write("}\n")
-        mapping_fp.close() 
+        mapping_fp.close()
 
         '''call extern model binary'''
-        param_list = [ 
+        param_list = [
             self.func,
             "--print_res=false",
             "--print_res_csv_file=true",
@@ -257,16 +257,16 @@ class MaestroModel:
             "--print_design_space=true",
             "--msg_print_lv=0"
         ]
- 
-        devNull = open(os.devnull, 'w') 
+
+        devNull = open(os.devnull, 'w')
         p = subprocess.Popen(''.join(p+' ' for p in param_list), shell=True, cwd=rst_dir, stdout = devNull,  stderr=devNull)
         p.wait()
 
 
         result_csv = rst_dir + mapping_file.split('/')[-1].replace(".m", ".csv")
-        
-        if not os.path.exists(result_csv): 
-            os.remove(rst_dir + mapping_file) 
+
+        if not os.path.exists(result_csv):
+            os.remove(rst_dir + mapping_file)
             return self.max_val, self.min_val, self.max_val, self.max_val, self.max_val
 
         '''read the CSV file to obtain ppa data'''
@@ -284,8 +284,8 @@ class MaestroModel:
                 ops.append(float(row[5]) * runtime)
                 area.append(float(row[7]))
                 power.append(float(row[8]))
-        
-        if not verbose: 
+
+        if not verbose:
             os.remove(rst_dir + mapping_file)
             os.remove(result_csv)
 
@@ -302,5 +302,5 @@ class MaestroModel:
         total_energy += random.uniform(0, rand_factor * total_energy)
         max_area +=  random.uniform(0, rand_factor * max_area)
         return total_runtime, total_ops / total_runtime, avg_pow, total_energy, max_area
-        
+
 

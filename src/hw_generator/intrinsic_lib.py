@@ -16,7 +16,7 @@ def gemv_intrinsic(i, j, dtype):
     jj = tvm.reduce_axis((0, j), name='j')
     c = tvm.compute((i, ), lambda ii:
                     tvm.sum(a[ii, jj] * b[jj], axis=jj), name='c')
-    
+
     return c, [a, b, c]
 
 

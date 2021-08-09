@@ -14,7 +14,7 @@ def gemm_interface(f_m, f_n, f_k, l_m, l_n, l_k, c_m, c_n, c_k, d_m, d_n, d_k, d
     _, tensors = gemm_intrinsic(f_m, f_n, f_k, dtype)
     tA, tB, tC = tensors
 
-    strideA = tvm.var("strideA")  
+    strideA = tvm.var("strideA")
     sA = tvm.decl_buffer(tA.shape, tA.dtype,
                         name="sA",
                         offset_factor=1,
@@ -52,13 +52,13 @@ def gemm_interface(f_m, f_n, f_k, l_m, l_n, l_k, c_m, c_n, c_k, d_m, d_n, d_k, d
     pad_k = tvm.if_then_else(c_k, last_pad_k, pad_k)
 
     # reset-update-finalize
-    def interface_func(ins, outs): 
+    def interface_func(ins, outs):
         sa, sb = ins
         sc, = outs
 
         def _body():
             ib = tvm.ir_builder.create()
-            # int32_t matmul_kernel(const elem_t *A, const elem_t *B, 
+            # int32_t matmul_kernel(const elem_t *A, const elem_t *B,
             #          elem_t *C, const acc_t *D, int32_t I, int32_t J, int32_t K, int32_t pad_I,
             #          int32_t pad_J, int32_t pad_K, int32_t A_row_len,
             #          int32_t B_row_len,  int32_t C_row_len, int32_t D_row_len,
@@ -68,7 +68,7 @@ def gemm_interface(f_m, f_n, f_k, l_m, l_n, l_k, c_m, c_n, c_k, d_m, d_n, d_k, d
             # overwrite the value in the accumulator; on subsequent runs D will be
             # replaced by NULL and C will accumulate on top of the accumulator's contents
             # This is controlled via bit 1 << (ADDR_LEN - 2) - see kernel source
-            ib.emit(tvm.call_extern(dtype, "tensorized_GEMM",  
+            ib.emit(tvm.call_extern(dtype, "tensorized_GEMM",
                                     sa.access_ptr("r"),
                                     sb.access_ptr("r"),
                                     sc.access_ptr("rw"),
@@ -113,19 +113,19 @@ def gemm_interface(f_m, f_n, f_k, l_m, l_n, l_k, c_m, c_n, c_k, d_m, d_n, d_k, d
 
 
 def generate_gemm_interface(M, N, K, fM, fN, fK, axisM, axisN, axisK, dM, dN, dK, sp_kb, local_kb, dtype):
-    
+
     """
     M, N, K: the dimensions mapped to i, j, k
     fM, fN, fK: interface size (fM, fK) * (fK, fN)
-    axisM, axisN, axisK: AST nodes 
+    axisM, axisN, axisK: AST nodes
     dM, dN, dK: intrinsic size
     """
 
     if verbose:
-        assert (fM * fK + fK * fN + fM * fK) <= sp_kb * 8192 / bits_map[dtype], 'data too large for scratchpad'  
-        assert (dM * dK + dK * dN + dM * dK) <= local_kb * 8192 / bits_map[dtype], 'data too large for local memory' 
+        assert (fM * fK + fK * fN + fM * fK) <= sp_kb * 8192 / bits_map[dtype], 'data too large for scratchpad'
+        assert (dM * dK + dK * dN + dM * dK) <= local_kb * 8192 / bits_map[dtype], 'data too large for local memory'
     else:
-        assert (fM * fK + fK * fN + fM * fK) <= sp_kb * 8192 / bits_map[dtype] 
+        assert (fM * fK + fK * fN + fM * fK) <= sp_kb * 8192 / bits_map[dtype]
         assert (dM * dK + dK * dN + dM * dK) <= local_kb * 8192 / bits_map[dtype]
 
 
@@ -148,13 +148,13 @@ def generate_gemm_interface(M, N, K, fM, fN, fK, axisM, axisN, axisK, dM, dN, dK
 
 
 class GEMMGenerator(generator):
-# generate accelerators with GEMM intrinsics 
+# generate accelerators with GEMM intrinsics
 
     def __init__(self, dtype="int8"):
         super().__init__("GEMM", gemm_intrinsic, generate_gemm_interface, dtype)
 
 
-    def instantiate(self, params, tag): 
+    def instantiate(self, params, tag):
 
         x, y, sp_kb, sp_banks, dma_width, dma_bytes, local_kb, dataflow, dtype = parse_params(self.type, params)
 
@@ -163,7 +163,7 @@ class GEMMGenerator(generator):
         def acc_interface(M, N, K, fM, fN, fK, axisM, axisN, axisK):
             return self.intf_func(M, N, K, fM, fN, fK, axisM, axisN, axisK, *intrin_size, sp_kb, local_kb, dtype)
 
-        # 0, 0, 0 placeholder  the i j k dimensions of  mapped GEMMs 
+        # 0, 0, 0 placeholder  the i j k dimensions of  mapped GEMMs
         acc = accelerator(self, intrin_size, acc_interface, params, tag, (0, 0, 0, dtype))
         return acc
 

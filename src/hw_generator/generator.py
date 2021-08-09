@@ -2,7 +2,7 @@ import tvm
 from flextensor.intrinsic import Intrinsic, register_intrin
 
 
-def parse_params(acc_type, params): 
+def parse_params(acc_type, params):
     if isinstance(params, list):
         if len(params) == 9:  # current #params
             return params
@@ -12,7 +12,7 @@ def parse_params(acc_type, params):
             return params
     else:
         x = params.get(f"x")
-        y = x if params.get(f"y") == None else params.get(f"y") 
+        y = x if params.get(f"y") == None else params.get(f"y")
         sp_cap = params.get(f"sp_capacity")
         sp_banks = params.get(f"sp_banks")
         dma_width = params.get(f"dma_buswidth")
@@ -20,7 +20,7 @@ def parse_params(acc_type, params):
         l_cap = params.get(f"local_capacity")
         dtype = params.get(f"dtype")
         if acc_type == "GEMM":
-            dataflow = params.get(f"dataflow") 
+            dataflow = params.get(f"dataflow")
         else:
             dataflow = "FIXED"
         return x, y, sp_cap, sp_banks, dma_width, dma_bytes, l_cap, dataflow, dtype
@@ -44,7 +44,7 @@ class generator:
 
 
 class accelerator:
-    
+
     def __init__(self, generator, intrin_size, acc_interface, params, tag, intrin_args):
         self.type = generator.type
         self.stt_matrix = generator.stt_matrix
@@ -75,4 +75,4 @@ class accelerator:
     def print_info(self):
         print(self.name)
         print(self.params)
-        
+

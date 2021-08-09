@@ -14,15 +14,15 @@ def gemv_interface(f_m, f_n, l_m, l_n, c_m, c_n, d_m, d_n, dtype):
     _, tensors = gemv_intrinsic(f_m, f_n, dtype)
     tA, tB, tC = tensors
 
-    strideA = tvm.var("strideA")  
+    strideA = tvm.var("strideA")
     sA = tvm.decl_buffer(tA.shape, tA.dtype,
                         name="sA",
                         offset_factor=1,
-                        strides=[strideA, 1]) 
+                        strides=[strideA, 1])
     sB = tvm.decl_buffer(tB.shape, tB.dtype,
                         name="sB",
                         offset_factor=1,
-                        strides=[1]) 
+                        strides=[1])
     sC = tvm.decl_buffer(tC.shape, tC.dtype,
                         name="sC",
                         offset_factor=1,
@@ -44,19 +44,19 @@ def gemv_interface(f_m, f_n, l_m, l_n, c_m, c_n, d_m, d_n, dtype):
     pad_n = tvm.if_then_else(c_n, last_pad_n, pad_n)
 
     # reset-update-finalize
-    def interface_func(ins, outs): 
+    def interface_func(ins, outs):
         sa, sb = ins
         sc, = outs
         # print(sa.strides, sb.strides, sc.strides)
 
         def _body():
             ib = tvm.ir_builder.create()
-            ib.emit(tvm.call_extern(dtype, "tensorized_GEMV",   
+            ib.emit(tvm.call_extern(dtype, "tensorized_GEMV",
                                     sa.access_ptr("r"),
                                     sb.access_ptr("r"),
                                     sc.access_ptr("rw"),
                                     1,
-                                    iter_m, iter_n, 
+                                    iter_m, iter_n,
                                     pad_m, pad_n,
                                     strideA, 1, 1, 0,
                                     True, False))
@@ -66,7 +66,7 @@ def gemv_interface(f_m, f_n, l_m, l_n, c_m, c_n, d_m, d_n, dtype):
             ib = tvm.ir_builder.create()
             ib.emit(tvm.call_extern(dtype, "init_output",
                                     sc.access_ptr("w"),
-                                    iter_m, pad_m, 
+                                    iter_m, pad_m,
                                     1))
             return ib.get()
 
@@ -85,11 +85,11 @@ def gemv_interface(f_m, f_n, l_m, l_n, c_m, c_n, d_m, d_n, dtype):
 
 
 def generate_gemv_interface(M, N, fM, fN, axisM, axisN, dM, dN, sp_kb, local_kb, dtype):
-    
+
     """
     M, N: the dimensions mapped to i, j
     fM, fN: interface size (fM, fN) * (fN)
-    axisM, axisN: AST nodes 
+    axisM, axisN: AST nodes
     dM, dN: intrinsic size
     """
 
@@ -115,14 +115,14 @@ def generate_gemv_interface(M, N, fM, fN, axisM, axisN, dM, dN, sp_kb, local_kb,
 
 
 class GEMVGenerator(generator):
-# generate accelerators with GEMV intrinsics 
+# generate accelerators with GEMV intrinsics
 
     def __init__(self, dtype="int8"):
         super().__init__("GEMV", gemv_intrinsic, generate_gemv_interface, dtype)
 
 
 
-    def instantiate(self, params, tag): 
+    def instantiate(self, params, tag):
 
         x, y, sp_kb, sp_banks, dma_width, dma_bytes, local_kb, dataflow, dtype = parse_params(self.type, params)
 
@@ -131,8 +131,8 @@ class GEMVGenerator(generator):
         def acc_interface(M, N, fM, fN, axisM, axisN):
             return self.intf_func(M, N, fM, fN, axisM, axisN, *intrin_size, sp_kb, local_kb, dtype)
 
-        # 0, 0 placeholder  the i j dimensions of  mapped GEMVs 
-        acc = accelerator(self, acc_interface, params, tag, (0, 0, dtype))  
+        # 0, 0 placeholder  the i j dimensions of  mapped GEMVs
+        acc = accelerator(self, acc_interface, params, tag, (0, 0, dtype))
         return acc
 
 
