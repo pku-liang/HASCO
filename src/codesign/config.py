@@ -1,5 +1,8 @@
 intrinsic_lib = ["GEMV", "GEMM", "DOT", "CONV"]
 
+def check_intrinsic(ty):
+    return ty.startswith(tuple(intrinsic_lib))
+
 eval_methods = ["Model", "Profile", "Simulate"] 
 
 all_metrics = ["latency", "throughput", "power", "area"]
@@ -8,9 +11,11 @@ supported_models = ["ResNet50", "MobileNetV2", "Xception"]
 
 bits_map = {"int8": 8, "float16": 16, "float32": 32, "int32": 32}
 
-maestro_home = "~/HASCO/src/maestro/"  # absolute path 
+maestro_home = "~/work/HASCO/src/maestro/"  # absolute path
 
-model_path = maestro_home + "maestro"
+maestro_path = maestro_home + "maestro"
+
+tenet_path = "~/work/HASCO/src/TENET/tenet"  # TODO: stub
 
 rst_dir = "./rst/"
 

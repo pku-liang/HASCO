@@ -195,8 +195,8 @@ def generate_conv_interface(N, C, Y, X, K, R, S, fN, fC, fY, fX, fK, fR, fS,
 class CONVGenerator(generator):
 # generate accelerators with CONV intrinsics 
 
-    def __init__(self, dtype="int8"):
-        super().__init__("CONV", conv_intrinsic, generate_conv_interface, dtype)
+    def __init__(self, stt_matrix=None, dtype="int8"):
+        super().__init__("CONV", conv_intrinsic, generate_conv_interface, stt_matrix, dtype)
 
 
 

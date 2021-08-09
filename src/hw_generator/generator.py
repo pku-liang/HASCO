@@ -29,10 +29,11 @@ def parse_params(acc_type, params):
 
 class generator:
 
-    def __init__(self, type, intrin_func, interface_func, dtype="int8"):
-        self.type = type
+    def __init__(self, type, intrin_func, interface_func, stt_matrix, dtype="int8"):
+        self.type = type + ("" if stt_matrix is None else "-TensorLib")
         self.intrin_func = intrin_func
         self.intf_func = interface_func
+        self.stt_matrix = stt_matrix
         self.dtype = dtype
 
     def meet_constraints(self):
@@ -46,6 +47,7 @@ class accelerator:
     
     def __init__(self, generator, acc_interface, params, tag, intrin_args):
         self.type = generator.type
+        self.stt_matrix = generator.stt_matrix
         self.name = generator.type + "_" + tag
         self.intrin_func = generator.intrin_func
         self.target = "c -device=micro_dev"

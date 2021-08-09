@@ -35,7 +35,29 @@ def gen_config(path, params, acc_type, tag):
 
 
 
-class PPAModel:
+class TENETModel:
+    '''
+    Stub for TENET model.
+    
+    lib_path: TENET interface path.
+    '''
+    def __init__(self, lib_path):
+        self.func = lib_path
+        self.max_val = float("inf")  # to avoid deviding by 0
+        self.min_val = float("-inf")
+
+    def evaluate(self, benchmark, schedules, acc, mapping_file):
+        '''
+        Evaluate a single instance.
+        benchmark: the whole benchmark.  benchmark.workloads is a 1-to-1 mapping to schedules.
+        schedules: schedules for each workload in benchmark.
+        acc: the accelerator instance.
+        mapping_file: output path for mapping file.
+        '''
+        raise NotImplementedError("tenet evaluation")
+
+
+class MaestroModel:
 
     def __init__(self, lib_path, config_file):
         self.func = lib_path

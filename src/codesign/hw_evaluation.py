@@ -1,9 +1,9 @@
 import time, os
 
-from codesign.ppa_model import PPAModel, gen_config
+from codesign.ppa_model import MaestroModel, TENETModel, gen_config
 # from codesign.manage_file import clean_file
 from codesign.flextensor_extend import gen_schedules
-from codesign.config import verbose, model_config_dir, model_path, mapping_dir, rst_dir
+from codesign.config import *
 
 from utils.logger import logger
 import tvm
@@ -30,10 +30,13 @@ def evaluation_function_model(parameterization, benchmark, generator):
     else:
         '''a new evaluation'''
         
-        config_file = gen_config(model_config_dir, parameterization, generator.type, tag)
-        model = PPAModel(model_path, config_file)
         acc = generator.instantiate(parameterization, tag)  
 
+        if acc.stt_matrix is None:
+            config_file = gen_config(model_config_dir, parameterization, generator.type, tag)
+            model = MaestroModel(maestro_path, config_file)
+        else:
+            model = TENETModel(tenet_path)
 
         if acc == None:
             PARAM_TABLE[tag] = None

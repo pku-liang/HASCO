@@ -29,7 +29,7 @@ from ax.modelbridge.factory import get_botorch, get_MOO_EHVI
 
 
 from codesign.ax_extend import eval_exp, run_trial, get_non_dominated, get_size
-from codesign.config import intrinsic_lib, eval_methods, all_metrics, verbose, sw_dir
+from codesign.config import check_intrinsic, eval_methods, all_metrics, verbose, sw_dir
 from codesign.hw_evaluation import evaluation_function, gen_software
 
 from typing import Optional, Any
@@ -132,7 +132,7 @@ def build_hw_space(generator, constraints, method):
 def codesign(benchmark, generator, method, constraints, init_size=INIT_SIZE, trial_num=TRIAL_NUM, early_stop=EARLY_STOP):
 
     print("#"*50)
-    assert generator.type in intrinsic_lib, "unsupported generator"
+    assert check_intrinsic(generator.type), f"unsupported generator {generator.type}"
     assert method in eval_methods, "measure method to be updated"
     print("Generator Intrinsic: " + generator.type)
     print("Evaluation Method: " + method)
