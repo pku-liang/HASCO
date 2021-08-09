@@ -158,11 +158,13 @@ class GEMMGenerator(generator):
 
         x, y, sp_kb, sp_banks, dma_width, dma_bytes, local_kb, dataflow, dtype = parse_params(self.type, params)
 
+        intrin_size = [x, y, 1]
+
         def acc_interface(M, N, K, fM, fN, fK, axisM, axisN, axisK):
-            return self.intf_func(M, N, K, fM, fN, fK, axisM, axisN, axisK, x, y, 1, sp_kb, local_kb, dtype) 
+            return self.intf_func(M, N, K, fM, fN, fK, axisM, axisN, axisK, *intrin_size, sp_kb, local_kb, dtype)
 
         # 0, 0, 0 placeholder  the i j k dimensions of  mapped GEMMs 
-        acc = accelerator(self, acc_interface, params, tag, (0, 0, 0, dtype)) 
+        acc = accelerator(self, intrin_size, acc_interface, params, tag, (0, 0, 0, dtype))
         return acc
 
 

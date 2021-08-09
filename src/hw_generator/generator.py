@@ -30,7 +30,7 @@ def parse_params(acc_type, params):
 class generator:
 
     def __init__(self, type, intrin_func, interface_func, stt_matrix, dtype="int8"):
-        self.type = type + ("" if stt_matrix is None else "-TensorLib")
+        self.type = type
         self.intrin_func = intrin_func
         self.intf_func = interface_func
         self.stt_matrix = stt_matrix
@@ -45,16 +45,26 @@ class generator:
 
 class accelerator:
     
-    def __init__(self, generator, acc_interface, params, tag, intrin_args):
+    def __init__(self, generator, intrin_size, acc_interface, params, tag, intrin_args):
         self.type = generator.type
         self.stt_matrix = generator.stt_matrix
         self.name = generator.type + "_" + tag
         self.intrin_func = generator.intrin_func
+        self.intrin_output_tensor = self.intrin_func(*intrin_size, generator.dtype)
         self.target = "c -device=micro_dev"
         self.flex_intrin = Intrinsic(self.type, self.name, self.intrin_func, intrin_args,
                    acc_interface, self.target)
         register_intrin(self.flex_intrin)
         self.params = params
+
+        if self.stt_matrix is not None:
+            '''
+            TODO: generate accelerator with TensorLib
+            self.stt_matrix: STT matrix
+            self.intrin_func[0].op: TVM operation for intrinsic function
+            self.intrin_output_tensor: output tensor for intrinsic with concrete size
+            '''
+            raise NotImplementedError("TensorLib generation not implemented")
 
     def add_intrinsic(self, intrin_func, intrin_args, interface):
         flex_intrin = Intrinsic("", "", intrin_func, intrin_args,

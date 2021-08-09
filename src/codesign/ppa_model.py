@@ -54,7 +54,8 @@ class TENETModel:
         acc: the accelerator instance.
         mapping_file: output path for mapping file.
         '''
-        raise NotImplementedError("tenet evaluation")
+        print("ERROR: TENET evaluation not implemented yet")
+        return self.max_val, self.min_val, self.max_val, self.max_val, self.max_val
 
 
 class MaestroModel:

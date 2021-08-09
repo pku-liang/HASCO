@@ -204,14 +204,16 @@ class CONVGenerator(generator):
 
         x, y, sp_kb, sp_banks, dma_width, dma_bytes, local_kb, dataflow, dtype = parse_params(self.type, params)
 
+        intrin_size = [1, y, 16, 16, x, 3, 3]
+
         def interface_3x3(N, C, Y, X, K, R, S, fN, fC, fY, fX, fK, fR, fS,
                          axisN, axisC, axisY, axisX, axisK, axisR, axisS):
             return self.intf_func(N, C, Y, X, K, R, S, fN, fC, fY, fX, fK, fR, fS,
                                   axisN, axisC, axisY, axisX, axisK, axisR, axisS,
-                                  1, y, 16, 16, x, 3, 3, sp_kb, local_kb, dtype)  # intrinsic size is hardware-specific
+                                  *intrin_size, sp_kb, local_kb, dtype)  # intrinsic size is hardware-specific
 
         # 0s placeholder  the  dimensions of  mapped CONVs 
-        acc = accelerator(self, interface_3x3, params, tag, (0, 0, 0, 0, 0, 0, 0, dtype)) 
+        acc = accelerator(self, intrin_size, interface_3x3, params, tag, (0, 0, 0, 0, 0, 0, 0, dtype))
 
 
         # def interface_1x1(N, C, Y, X, K, R, S, fN, fC, fY, fX, fK, fR, fS,

@@ -128,8 +128,10 @@ class DOTGenerator(generator):
 
         x, y, sp_kb, sp_banks, dma_width, dma_bytes, local_kb, dataflow, dtype = parse_params(self.type, params)
 
+        intrin_size = [1, x * y]
+
         def acc_interface(N, K, fN, fK, axisN, axisK):
-            return self.intf_func(N, K, fN, fK, axisN, axisK, 1, x * y, sp_kb, local_kb, dtype) 
+            return self.intf_func(N, K, fN, fK, axisN, axisK, *intrin_size, sp_kb, local_kb, dtype)
 
         # 0, 0 placeholder  the i j dimensions of mapped DOTs 
         acc = accelerator(self, acc_interface, params, tag, (0, 0, dtype)) 
