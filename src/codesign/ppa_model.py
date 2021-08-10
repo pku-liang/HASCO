@@ -37,7 +37,7 @@ def gen_config(path, params, acc_type, tag):
 
 class TENETModel:
     '''
-    Stub for TENET model.
+    TODO(zizhang): TENET model evaluation.
 
     lib_path: TENET interface path.
     '''
@@ -51,8 +51,10 @@ class TENETModel:
         Evaluate a single instance.
         benchmark: the whole benchmark.  benchmark.workloads is a 1-to-1 mapping to schedules.
         schedules: schedules for each workload in benchmark.
-        acc: the accelerator instance.
         mapping_file: output path for mapping file.
+
+        acc.stt_matrix: STT matrix
+        acc.intrin_output_tensor: output tensor for intrinsic with concrete size
         '''
         print("ERROR: TENET evaluation not implemented yet")
         return self.max_val, self.min_val, self.max_val, self.max_val, self.max_val

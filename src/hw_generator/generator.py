@@ -60,9 +60,8 @@ class accelerator:
     def generate_hardware(self):
         if self.stt_matrix is not None:
             '''
-            TODO: generate accelerator with TensorLib
+            TODO(zizhang): generate accelerator with TensorLib
             self.stt_matrix: STT matrix
-            self.intrin_func[0].op: TVM operation for intrinsic function
             self.intrin_output_tensor: output tensor for intrinsic with concrete size
             '''
             raise NotImplementedError("TensorLib generation not implemented")
