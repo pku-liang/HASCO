@@ -220,6 +220,7 @@ def codesign(benchmark, generator, method, constraints, init_size=INIT_SIZE, tri
         acc_software = gen_software(tag) 
         params = tag.split('_')
         acc = generator.instantiate(params, tag)
+        acc.generate_hardware()  # generate best hardware
         jsonString = json.dumps(str(acc_software))
         jsonFile = open("{}{}_{}_{}_software.json".format(sw_dir, benchmark.name, acc.name, key), "w")
         jsonFile.write(jsonString)

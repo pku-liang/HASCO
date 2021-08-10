@@ -57,6 +57,7 @@ class accelerator:
         register_intrin(self.flex_intrin)
         self.params = params
 
+    def generate_hardware(self):
         if self.stt_matrix is not None:
             '''
             TODO: generate accelerator with TensorLib
