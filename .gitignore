@@ -6,3 +6,5 @@ rst/software/
 # python
 *.py[cod]
 
+*.swp
+*.orig
