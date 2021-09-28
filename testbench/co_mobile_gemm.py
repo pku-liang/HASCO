@@ -8,15 +8,30 @@ from benchmark.benchmark import BenchmarkCNN
 from codesign.hw_evaluation import gen_software
 from codesign.explorer import codesign
 
+stts = {
+    "OS": [[1, 0, 0],
+           [0, 1, 0],
+           [1, 1, 1]],
+    "WS": [[1, 0, 0],
+           [0, 0, 1],
+           [1, 1, 1]]
+}
 
 
 if __name__ == '__main__':
     dtype = "int8"
     method = "Model"
-    constraints = {"latency": 0, "power": 0, "area": 0}  # TODO
+    hw_space = {
+        "x":list(range(4,33)),
+        "y":list(range(4,33)),
+        "dma_buswidth":[64,128,256],
+        "dataflow":list(stts.keys())
+    }
+    constraints = {"latency": 1000, "power": 20, "area": 0}  # TODO
 
     print("Testing accelerators with GEMM intrinsic ...")
-    generator = GEMMGenerator() 
-    benchmark = BenchmarkCNN("MobileNetV2", dtype, layout=generator.type) 
-    codesign(benchmark, generator, method, constraints, init_size=5, trial_num=20)
+    generator = GEMMGenerator(stts, hw_space, dtype)
+    benchmark = BenchmarkCNN("MobileNetV2", dtype, layout=generator.type)
+    codesign(benchmark, generator, method,
+             constraints, init_size=1, trial_num=1)
     print("Passed.")

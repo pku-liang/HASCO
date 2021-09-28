@@ -120,8 +120,8 @@ def generate_dot_interface(N, K, fN, fK, axisN, axisK, dN, dK, sp_kb, local_kb, 
 class DOTGenerator(generator):
 # generate accelerators with GEMV intrinsics
 
-    def __init__(self, dtype="int8"):
-        super().__init__("DOT", dot_intrinsic, generate_dot_interface, dtype)
+    def __init__(self, stt_matrix=None, hw_space=None, dtype="int8"):
+        super().__init__("DOT", dot_intrinsic, generate_dot_interface, stt_matrix, hw_space, dtype)
 
 
     def instantiate(self, params, tag):

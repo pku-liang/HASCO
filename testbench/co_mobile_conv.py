@@ -8,20 +8,34 @@ from benchmark.benchmark import BenchmarkCNN
 from codesign.hw_evaluation import gen_software
 from codesign.explorer import codesign
 
-stt = [[1, 0, 0, 0, 0, 0],
-       [0, 1, 0, 0, 0, 0],
-       [1, 1, 0, 1, 0, 0],
-       [0, 0, 0, 0, 0, 1],
-       [0, 0, 0, 0, 1, 0],
-       [0, 0, 1, 0, 0, 0]]
-
 if __name__ == '__main__':
     dtype = "int8"
     method = "Model"
-    constraints = {"latency": 0, "power": 0, "area": 0}  # TODO
+    stts = {
+        "WS": [[1, 0, 0, 0, 0, 0],
+               [0, 1, 0, 0, 0, 0],
+               [1, 1, 0, 1, 0, 0],
+               [0, 0, 0, 0, 0, 1],
+               [0, 0, 0, 0, 1, 0],
+               [0, 0, 1, 0, 0, 0]],
+        "NVDLA": [[1, 0, 0, 0, 0, 0],
+                  [0, 1, 0, 0, 0, 0],
+                  [0, 0, 1, 0, 0, 0],
+                  [0, 0, 0, 1, 0, 0],
+                  [0, 0, 0, 0, 1, 0],
+                  [0, 0, 0, 0, 0, 1]]
+    }   
+    hw_space = {
+        "x":[4,8,16,32],
+        "y":[4,8,16,32],
+        "dma_buswidth":[64,128,256],
+        "dataflow":list(stts.keys())
+    }
+    constraints = {"latency": 1000, "power": 20, "area": 0}  # TODO
 
     print("Testing accelerators with CONV intrinsic ...")
-    generator = CONVGenerator(stt) 
-    benchmark = BenchmarkCNN("MobileNetV2", dtype, layout=generator.type) 
-    codesign(benchmark, generator, method, constraints, init_size=10, trial_num=40)
+    generator = CONVGenerator(stts, hw_space, dtype)
+    benchmark = BenchmarkCNN("MobileNetV2", dtype, layout=generator.type)
+    codesign(benchmark, generator, method,
+             constraints, init_size=1, trial_num=1)
     print("Passed.")

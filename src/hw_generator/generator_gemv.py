@@ -117,8 +117,8 @@ def generate_gemv_interface(M, N, fM, fN, axisM, axisN, dM, dN, sp_kb, local_kb,
 class GEMVGenerator(generator):
 # generate accelerators with GEMV intrinsics
 
-    def __init__(self, dtype="int8"):
-        super().__init__("GEMV", gemv_intrinsic, generate_gemv_interface, dtype)
+    def __init__(self, stt_matrix=None, hw_space=None, dtype="int8"):
+        super().__init__("GEMV", gemv_intrinsic, generate_gemv_interface, stt_matrix, hw_space, dtype)
 
 
 

@@ -1,3 +1,4 @@
+import os
 import numpy as np
 from ax import (
     ComparisonOp,
@@ -8,7 +9,7 @@ from ax import (
     SearchSpace,
     Experiment,
     OutcomeConstraint,
-    OrderConstraint ,
+    OrderConstraint,
     OptimizationConfig,
     Metric,
     Data
@@ -29,7 +30,7 @@ from ax.modelbridge.factory import get_botorch, get_MOO_EHVI
 
 
 from codesign.ax_extend import eval_exp, run_trial, get_non_dominated, get_size
-from codesign.config import check_intrinsic, eval_methods, all_metrics, verbose, sw_dir
+from codesign.config import check_intrinsic, eval_methods, all_metrics, verbose, sw_dir, rst_dir
 from codesign.hw_evaluation import evaluation_function, gen_software
 
 from typing import Optional, Any
@@ -37,12 +38,10 @@ from typing import Optional, Any
 from utils.logger import logger
 
 
-
 INIT_SIZE = 10
 TRIAL_NUM = 20
 EARLY_STOP = 5
 ABANDON_LIMITS = 20
-
 
 
 def build_hw_space(generator, constraints, method):
@@ -68,40 +67,93 @@ def build_hw_space(generator, constraints, method):
     buswidth unit: bits
     '''
 
-    if generator.type == "GEMM":
+    def makeParameter(name, parameter_type, default_value):
+        if name in generator.hw_space:
+            values = generator.hw_space[name]
+        else:
+            values = default_value
+        if not isinstance(values, list):
+            values = [values]
+        if len(values) == 1:
+            return FixedParameter(
+                name=name, parameter_type=parameter_type, value = values[0]
+            )
+        else:
+            return ChoiceParameter(
+                name=name, parameter_type=parameter_type, values = values
+            )
+
+    if generator.stt_matrix is not None:
         hw_design_space = SearchSpace(parameters=[
-            ChoiceParameter(name="x", parameter_type=ParameterType.INT, values=[8, 16, 32]),
-            ChoiceParameter(name="sp_capacity", parameter_type=ParameterType.INT, values=[128, 256, 512]),
-            ChoiceParameter(name="local_capacity", parameter_type=ParameterType.INT, values=[64, 128, 256]),
-            ChoiceParameter(name="dataflow", parameter_type=ParameterType.STRING, values=["WS", "OS"]),
-            RangeParameter(name="sp_banks", parameter_type=ParameterType.INT, lower=1, upper=8),
-            ChoiceParameter(name="dma_buswidth", parameter_type=ParameterType.INT, values=[64, 128]),
-            ChoiceParameter(name="dma_maxbytes", parameter_type=ParameterType.INT, values=[64, 128]),
-            FixedParameter(name="dtype", parameter_type=ParameterType.STRING, value=generator.dtype),
+            makeParameter("x", ParameterType.INT, 8),
+            makeParameter("y", ParameterType.INT, 8),
+            makeParameter("sp_capacity", ParameterType.INT, 128),
+            makeParameter("local_capacity", ParameterType.INT, 128),
+            makeParameter("dataflow", ParameterType.STRING, "FIXED"),
+            makeParameter("sp_banks", ParameterType.INT, 8),
+            makeParameter("dma_buswidth", ParameterType.INT, 128),
+            makeParameter("dma_maxbytes", ParameterType.INT, 128),
+            makeParameter("dtype", ParameterType.STRING, generator.dtype)
+        ])
+    elif generator.type == "GEMM":
+        hw_design_space = SearchSpace(parameters=[
+            ChoiceParameter(
+                name="x", parameter_type=ParameterType.INT, values=[8, 16, 32]),
+            ChoiceParameter(
+                name="sp_capacity", parameter_type=ParameterType.INT, values=[128, 256, 512]),
+            ChoiceParameter(
+                name="local_capacity", parameter_type=ParameterType.INT, values=[64, 128, 256]),
+            ChoiceParameter(
+                name="dataflow", parameter_type=ParameterType.STRING, values=["WS", "OS"]),
+            RangeParameter(name="sp_banks",
+                           parameter_type=ParameterType.INT, lower=1, upper=8),
+            ChoiceParameter(name="dma_buswidth",
+                            parameter_type=ParameterType.INT, values=[64, 128]),
+            ChoiceParameter(name="dma_maxbytes",
+                            parameter_type=ParameterType.INT, values=[64, 128]),
+            FixedParameter(
+                name="dtype", parameter_type=ParameterType.STRING, value=generator.dtype),
         ])  # can be improved by constraining local_capacity < sp_capacity
 
     elif generator.type == "GEMV":
         hw_design_space = SearchSpace(parameters=[
-            ChoiceParameter(name="x", parameter_type=ParameterType.INT, values=[8, 16, 32]),
-            ChoiceParameter(name="sp_capacity", parameter_type=ParameterType.INT, values=[128, 256, 512]),
-            ChoiceParameter(name="local_capacity", parameter_type=ParameterType.INT, values=[64, 128, 256]),
-            FixedParameter(name="dataflow", parameter_type=ParameterType.STRING, value="FIXED"),
-            RangeParameter(name="sp_banks", parameter_type=ParameterType.INT, lower=1, upper=8),
-            ChoiceParameter(name="dma_buswidth", parameter_type=ParameterType.INT, values=[64, 128]),
-            ChoiceParameter(name="dma_maxbytes", parameter_type=ParameterType.INT, values=[64, 128]),
-            FixedParameter(name="dtype", parameter_type=ParameterType.STRING, value=generator.dtype),
+            ChoiceParameter(
+                name="x", parameter_type=ParameterType.INT, values=[8, 16, 32]),
+            ChoiceParameter(
+                name="sp_capacity", parameter_type=ParameterType.INT, values=[128, 256, 512]),
+            ChoiceParameter(
+                name="local_capacity", parameter_type=ParameterType.INT, values=[64, 128, 256]),
+            FixedParameter(name="dataflow",
+                           parameter_type=ParameterType.STRING, value="FIXED"),
+            RangeParameter(name="sp_banks",
+                           parameter_type=ParameterType.INT, lower=1, upper=8),
+            ChoiceParameter(name="dma_buswidth",
+                            parameter_type=ParameterType.INT, values=[64, 128]),
+            ChoiceParameter(name="dma_maxbytes",
+                            parameter_type=ParameterType.INT, values=[64, 128]),
+            FixedParameter(
+                name="dtype", parameter_type=ParameterType.STRING, value=generator.dtype),
         ])
-    else: # conv  dot
-       hw_design_space = SearchSpace(parameters=[
-            RangeParameter(name="x", parameter_type=ParameterType.INT, lower=4, upper=32),
-            RangeParameter(name="y", parameter_type=ParameterType.INT, lower=4, upper=32),
-            ChoiceParameter(name="sp_capacity", parameter_type=ParameterType.INT, values=[128, 256, 512, 1024]),
-            ChoiceParameter(name="local_capacity", parameter_type=ParameterType.INT, values=[64, 128, 256, 512]),
-            RangeParameter(name="sp_banks", parameter_type=ParameterType.INT, lower=1, upper=8),
-            ChoiceParameter(name="dma_buswidth", parameter_type=ParameterType.INT, values=[64, 128, 256]),
-            ChoiceParameter(name="dma_maxbytes", parameter_type=ParameterType.INT, values=[64, 128, 256]),
-            FixedParameter(name="dataflow", parameter_type=ParameterType.STRING, value="FIXED"),
-            FixedParameter(name="dtype", parameter_type=ParameterType.STRING, value=generator.dtype),
+    else:  # conv  dot
+        hw_design_space = SearchSpace(parameters=[
+            RangeParameter(
+                name="x", parameter_type=ParameterType.INT, lower=4, upper=32),
+            RangeParameter(
+                name="y", parameter_type=ParameterType.INT, lower=4, upper=32),
+            ChoiceParameter(name="sp_capacity", parameter_type=ParameterType.INT, values=[
+                            128, 256, 512, 1024]),
+            ChoiceParameter(name="local_capacity", parameter_type=ParameterType.INT, values=[
+                            64, 128, 256, 512]),
+            RangeParameter(name="sp_banks",
+                           parameter_type=ParameterType.INT, lower=1, upper=8),
+            ChoiceParameter(
+                name="dma_buswidth", parameter_type=ParameterType.INT, values=[64, 128, 256]),
+            ChoiceParameter(
+                name="dma_maxbytes", parameter_type=ParameterType.INT, values=[64, 128, 256]),
+            FixedParameter(name="dataflow",
+                           parameter_type=ParameterType.STRING, value="FIXED"),
+            FixedParameter(
+                name="dtype", parameter_type=ParameterType.STRING, value=generator.dtype),
         ])
 
     metrics = []
@@ -111,11 +163,10 @@ def build_hw_space(generator, constraints, method):
         else:
             metrics.append(Metric(name=key, lower_is_better=False))
 
-    #create experiment
+    # create experiment
     optimization_config = OptimizationConfig(
-        objective=ScalarizedObjective( metrics=metrics, minimize=True)
+        objective=ScalarizedObjective(metrics=metrics, minimize=True)
     )
-
 
     exp = Experiment(
         name="codesign_process",
@@ -127,12 +178,11 @@ def build_hw_space(generator, constraints, method):
     return exp
 
 
-
-
 def codesign(benchmark, generator, method, constraints, init_size=INIT_SIZE, trial_num=TRIAL_NUM, early_stop=EARLY_STOP):
 
-    print("#"*50)
-    assert check_intrinsic(generator.type), f"unsupported generator {generator.type}"
+    print("#" * 50)
+    assert check_intrinsic(
+        generator.type), f"unsupported generator {generator.type}"
     assert method in eval_methods, "measure method to be updated"
     print("Generator Intrinsic: " + generator.type)
     print("Evaluation Method: " + method)
@@ -141,10 +191,10 @@ def codesign(benchmark, generator, method, constraints, init_size=INIT_SIZE, tri
         assert key in all_metrics, "unsupported metric"
         print(key + "  ", end='')
 
-    print("\nStarting ..." + "."*30)
+    print("\nStarting ..." + "." * 30)
 
     '''buidling hardware design space'''
-    exp =  build_hw_space(generator, constraints, method)
+    exp = build_hw_space(generator, constraints, method)
 
     pareto_results = {}
     tags = {}
@@ -152,17 +202,18 @@ def codesign(benchmark, generator, method, constraints, init_size=INIT_SIZE, tri
         pareto_results[key] = []
         tags[key] = []
 
-
     '''starting MOBO-based exploration'''
     '''MOBO: init the prior'''
     sobol = Models.SOBOL(exp.search_space)
-    data= None
+    data = None
     while data == None:
         print("Running Sobol initialization trials...")
         exp.new_batch_trial(generator_run=sobol.gen(init_size))
-        data=eval_exp(exp, evaluation_function, benchmark=benchmark, generator=generator, method=method)
+        data = eval_exp(exp, evaluation_function,
+                        benchmark=benchmark, generator=generator, method=method)
 
     data_size = get_size(data)
+    print(data_size)
     same_cnt = 0
     '''MOBO: iterative update'''
     for i in range(trial_num):
@@ -177,9 +228,11 @@ def codesign(benchmark, generator, method, constraints, init_size=INIT_SIZE, tri
         )
 
         for index in range(ABANDON_LIMITS):
-            trial = exp.new_trial(generator_run=moo_model.gen(1)) # can be improved
+            trial = exp.new_trial(
+                generator_run=moo_model.gen(1))  # can be improved
             try:
-                new_data = run_trial(exp, trial, evaluation_function, benchmark=benchmark, generator=generator, method=method)
+                new_data = run_trial(exp, trial, evaluation_function,
+                                     benchmark=benchmark, generator=generator, method=method)
                 data = Data.from_multiple_data([data, new_data])
                 break
             except Exception:
@@ -187,14 +240,11 @@ def codesign(benchmark, generator, method, constraints, init_size=INIT_SIZE, tri
                 trial.mark_abandoned()
                 continue
 
-
         current_pareto = get_non_dominated(exp)
         for items in current_pareto:
-            for (k, v) in items.items():
-                tags[k].append(v[0])
+            for (k, (v, p)) in items.items():
+                tags[k].append((v[0], p))
                 pareto_results[k].append(v[1])
-
-
 
         if get_size(data) == data_size:
             same_cnt += 1
@@ -204,31 +254,26 @@ def codesign(benchmark, generator, method, constraints, init_size=INIT_SIZE, tri
         else:
             same_cnt = 0
 
-        data_size = get_size(data)
-
-
-    print("#"*50 + "\nReport:", end='')
+    print("#" * 50 + "\nReport:", end='')
     print(pareto_results)
     print(tags)
-    print("#"*50 +"\nSaving Results ...")
+    print("#" * 50 + "\nSaving Results ...")
 
+    '''saving software & hardware'''
+    with open(os.path.join(rst_dir, f"{benchmark.name}_{generator.type}.csv"), "w") as csvfile:
+        csvfile.write("key,x,y,dataflow,dma_buswidth\n")
+        for key in constraints:
+            tag, params = tags[key][-1]
+            acc_software = gen_software(tag)
+            acc = generator.instantiate(params, tag)
+            acc.generate_hardware(key)  # generate best hardware
 
-    '''saving software'''
-    import json
-    for key in constraints:
-        tag = tags[key][-1]
-        acc_software = gen_software(tag)
-        params = tag.split('_')
-        acc = generator.instantiate(params, tag)
-        acc.generate_hardware()  # generate best hardware
-        jsonString = json.dumps(str(acc_software))
-        jsonFile = open("{}{}_{}_{}_software.json".format(sw_dir, benchmark.name, acc.name, key), "w")
-        jsonFile.write(jsonString)
-        jsonFile.close()
-        print(f"{key} done!")
+            with open("{}{}_{}_{}_software.tvm".format(sw_dir, benchmark.name, acc.name, key), "w") as fout:
+                fout.write(str(acc_software))
+
+            csvfile.write(
+                f"{key},{params['x']},{params['y']},{params['dataflow']},{params['dma_buswidth']}\n")
+
+            print(f"{key} done!")
 
     print("All Done!")
-
-
-
-

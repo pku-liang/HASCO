@@ -150,8 +150,8 @@ def generate_gemm_interface(M, N, K, fM, fN, fK, axisM, axisN, axisK, dM, dN, dK
 class GEMMGenerator(generator):
 # generate accelerators with GEMM intrinsics
 
-    def __init__(self, dtype="int8"):
-        super().__init__("GEMM", gemm_intrinsic, generate_gemm_interface, dtype)
+    def __init__(self, stt_matrix=None, hw_space=None, dtype="int8"):
+        super().__init__("GEMM", gemm_intrinsic, generate_gemm_interface, stt_matrix, hw_space, dtype)
 
 
     def instantiate(self, params, tag):
