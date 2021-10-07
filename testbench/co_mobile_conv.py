@@ -37,5 +37,5 @@ if __name__ == '__main__':
     generator = CONVGenerator(stts, hw_space, dtype)
     benchmark = BenchmarkCNN("MobileNetV2", dtype, layout=generator.type)
     codesign(benchmark, generator, method,
-             constraints, init_size=1, trial_num=1)
+             constraints, init_size=10, trial_num=20)
     print("Passed.")
