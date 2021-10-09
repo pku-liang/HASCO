@@ -27,16 +27,16 @@ if __name__ == '__main__':
     dtype = "int8"
     method = "Model"
     hw_space = {
-        "x":list(range(4,33)),
-        "y":list(range(4,33)),
-        "dma_buswidth":[64,128,256],
-        "dataflow":list(stts.keys())
+        "x": list(range(4, 33)),
+        "y": list(range(4, 33)),
+        "dma_buswidth": [64, 128, 256],
+        "dataflow": list(stts.keys())
     }
     constraints = {"latency": 0, "power": 0, "area": 0}  # TODO
 
-    print("Testing accelerators with CONV intrinsic ...")
+    print("[HASCO] Testing accelerators with CONV intrinsic ...")
     generator = CONVGenerator(stts, hw_space, dtype)
     benchmark = BenchmarkCNN("ResNet50", dtype, layout=generator.type)
     codesign(benchmark, generator, method,
              constraints, init_size=5, trial_num=20)
-    print("Passed.")
+    print("[HASCO] Passed.")

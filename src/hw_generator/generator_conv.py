@@ -191,7 +191,8 @@ class CONVGenerator(generator):
     # generate accelerators with( CONV intrinsics
 
     def __init__(self, stt_matrix=None, hw_space=None, dtype="int8"):
-        super().__init__("CONV", conv_intrinsic, generate_conv_interface, stt_matrix, hw_space, dtype)
+        super().__init__("CONV", conv_intrinsic,
+                         generate_conv_interface, stt_matrix, hw_space, dtype)
 
     def instantiate(self, params, tag):
 

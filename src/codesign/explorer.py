@@ -1,5 +1,6 @@
 import os
 import numpy as np
+from torch.cuda.random import get_rng_state
 from ax import (
     ComparisonOp,
     ParameterType,
@@ -76,11 +77,11 @@ def build_hw_space(generator, constraints, method):
             values = [values]
         if len(values) == 1:
             return FixedParameter(
-                name=name, parameter_type=parameter_type, value = values[0]
+                name=name, parameter_type=parameter_type, value=values[0]
             )
         else:
             return ChoiceParameter(
-                name=name, parameter_type=parameter_type, values = values
+                name=name, parameter_type=parameter_type, values=values
             )
 
     if generator.stt_matrix is not None:
@@ -268,7 +269,7 @@ def codesign(benchmark, generator, method, constraints, init_size=INIT_SIZE, tri
             acc = generator.instantiate(params, tag)
             acc.generate_hardware(key)  # generate best hardware
 
-            with open("{}{}_{}_{}_software.tvm".format(sw_dir, benchmark.name, acc.name, key), "w") as fout:
+            with open("{}{}_{}_{}_software.ir".format(sw_dir, benchmark.name, acc.name, key), "w") as fout:
                 fout.write(str(acc_software))
 
             csvfile.write(

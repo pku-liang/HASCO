@@ -54,8 +54,9 @@ class TENETModel:
         }
 
     def generate_pe_array(self, name, acc):
-        x = acc.params["x"]
-        y = acc.params["y"]
+        x = acc.params['x']
+        y = acc.params['y']
+
         l1 = l2 = acc.params["sp_capacity"]
         bandwidth = acc.params['dma_buswidth']
         avg_latency = tenet_param["avg_latency"]
@@ -92,15 +93,11 @@ class TENETModel:
         with open(os.path.join(tenet_mapping_dir, name + ".m"), "w") as fout:
             fout.writelines(strs)
 
-    def generate_single_statement(self, name, workload, loop_info, acc, num):
+    def generate_single_statement(self, name, acc, num):
         l = {}
-        if acc.type == "GEMM":
-            l['i'] = loop_info["inner"][0]["length"]
-            l['j'] = loop_info["inner"][1]["length"]
-            l['k'] = loop_info["inner"][2]["length"]
-        elif acc.type == "CONV":
-            for i in loop_info["inner"]:
-                l[i["origin"]] = i["length"]
+
+        for i, v in enumerate(self.vars[acc.type]):
+            l[v] = acc.intrin_size[i]
 
         S = "S[" + ",".join(self.vars[acc.type]) + "]"
         strs = [
@@ -147,8 +144,7 @@ class TENETModel:
             schedules = [schedules]
 
         for i, (w, s) in enumerate(zip(benchmark.workloads, schedules)):
-            loop_info = parse_schedule(s)
-            self.generate_single_statement(name, w, loop_info, acc, i)
+            self.generate_single_statement(name, acc, i)
 
         param_list = [
             self.func,

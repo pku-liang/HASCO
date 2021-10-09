@@ -16,19 +16,19 @@ def gemm_interface(f_m, f_n, f_k, l_m, l_n, l_k, c_m, c_n, c_k, d_m, d_n, d_k, d
 
     strideA = tvm.var("strideA")
     sA = tvm.decl_buffer(tA.shape, tA.dtype,
-                        name="sA",
-                        offset_factor=1,
-                        strides=[strideA, 1])
+                         name="sA",
+                         offset_factor=1,
+                         strides=[strideA, 1])
     strideB = tvm.var("strideB")
     sB = tvm.decl_buffer(tB.shape, tB.dtype,
-                        name="sB",
-                        offset_factor=1,
-                        strides=[strideB, 1])
+                         name="sB",
+                         offset_factor=1,
+                         strides=[strideB, 1])
     strideC = tvm.var("strideC")
     sC = tvm.decl_buffer(tC.shape, tC.dtype,
-                        name="sC",
-                        offset_factor=1,
-                        strides=[strideC, 1])
+                         name="sC",
+                         offset_factor=1,
+                         strides=[strideC, 1])
 
     iter_m = f_m // d_m + (0 if f_m % d_m == 0 else 1)
     iter_n = f_n // d_n + (0 if f_n % d_n == 0 else 1)
@@ -105,15 +105,11 @@ def gemm_interface(f_m, f_n, f_k, l_m, l_n, l_k, c_m, c_n, c_k, d_m, d_n, d_k, d
         # standalone (without reduce axis split), reset, update
         return None, _reset(), _body(), _finalize()
 
-
     with tvm.build_config(offset_factor=1):
         return tvm.decl_tensor_intrin(tC.op, interface_func, binds={tA: sA, tB: sB, tC: sC}, name="gemm_interface")
 
 
-
-
 def generate_gemm_interface(M, N, K, fM, fN, fK, axisM, axisN, axisK, dM, dN, dK, sp_kb, local_kb, dtype):
-
     """
     M, N, K: the dimensions mapped to i, j, k
     fM, fN, fK: interface size (fM, fK) * (fK, fN)
@@ -122,60 +118,52 @@ def generate_gemm_interface(M, N, K, fM, fN, fK, axisM, axisN, axisK, dM, dN, dK
     """
 
     if verbose:
-        assert (fM * fK + fK * fN + fM * fK) <= sp_kb * 8192 / bits_map[dtype], 'data too large for scratchpad'
-        assert (dM * dK + dK * dN + dM * dK) <= local_kb * 8192 / bits_map[dtype], 'data too large for local memory'
+        assert (fM * fK + fK * fN + fM * fK) <= sp_kb * 8192 / \
+            bits_map[dtype], 'data too large for scratchpad'
+        assert (dM * dK + dK * dN + dM * dK) <= local_kb * 8192 / \
+            bits_map[dtype], 'data too large for local memory'
     else:
         assert (fM * fK + fK * fN + fM * fK) <= sp_kb * 8192 / bits_map[dtype]
-        assert (dM * dK + dK * dN + dM * dK) <= local_kb * 8192 / bits_map[dtype]
-
+        assert (dM * dK + dK * dN + dM * dK) <= local_kb * \
+            8192 / bits_map[dtype]
 
     last_m = M % fM
-    cond_m = tvm.expr.EQ(axisM, M // fM) if last_m != 0 else False # m condition statement
+    # m condition statement
+    cond_m = tvm.expr.EQ(axisM, M // fM) if last_m != 0 else False
     last_m = last_m if last_m != 0 else fM
 
     last_n = N % fN   # the last iteration of N
-    cond_n = tvm.expr.EQ(axisN, N // fN) if last_n != 0 else False  # n condition statement
+    # n condition statement
+    cond_n = tvm.expr.EQ(axisN, N // fN) if last_n != 0 else False
     last_n = last_n if last_n != 0 else fN
 
     last_k = K % fK
-    cond_k = tvm.expr.EQ(axisK, K // fK) if last_k != 0 else False  # k condition statement
+    # k condition statement
+    cond_k = tvm.expr.EQ(axisK, K // fK) if last_k != 0 else False
     last_k = last_k if last_k != 0 else fK
 
     return gemm_interface(fM, fN, fK, last_m,
-                last_n, last_k, cond_m, cond_n, cond_k, dM, dN, dK, dtype)
-
-
+                          last_n, last_k, cond_m, cond_n, cond_k, dM, dN, dK, dtype)
 
 
 class GEMMGenerator(generator):
-# generate accelerators with GEMM intrinsics
+    # generate accelerators with GEMM intrinsics
 
     def __init__(self, stt_matrix=None, hw_space=None, dtype="int8"):
-        super().__init__("GEMM", gemm_intrinsic, generate_gemm_interface, stt_matrix, hw_space, dtype)
-
+        super().__init__("GEMM", gemm_intrinsic,
+                         generate_gemm_interface, stt_matrix, hw_space, dtype)
 
     def instantiate(self, params, tag):
 
-        x, y, sp_kb, sp_banks, dma_width, dma_bytes, local_kb, dataflow, dtype = parse_params(self.type, params)
+        x, y, sp_kb, sp_banks, dma_width, dma_bytes, local_kb, dataflow, dtype = parse_params(
+            self.type, params)
 
-        intrin_size = [x, y, 1]
+        intrin_size = [x, y, 8]
 
         def acc_interface(M, N, K, fM, fN, fK, axisM, axisN, axisK):
             return self.intf_func(M, N, K, fM, fN, fK, axisM, axisN, axisK, *intrin_size, sp_kb, local_kb, dtype)
 
         # 0, 0, 0 placeholder  the i j k dimensions of  mapped GEMMs
-        acc = accelerator(self, intrin_size, acc_interface, params, tag, (0, 0, 0, dtype))
+        acc = accelerator(self, intrin_size, acc_interface,
+                          params, tag, (0, 0, 0, dtype))
         return acc
-
-
-
-
-
-
-
-
-
-
-
-
-

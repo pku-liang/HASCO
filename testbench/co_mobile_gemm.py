@@ -22,16 +22,16 @@ if __name__ == '__main__':
     dtype = "int8"
     method = "Model"
     hw_space = {
-        "x": list(range(4, 33)),
-        "y": list(range(4, 33)),
+        "x": list([4, 8, 16]),
+        "y": list([4, 8, 16]),
         "dma_buswidth": [64, 128, 256],
         "dataflow": list(stts.keys())
     }
-    constraints = {"latency": 1000, "power": 20, "area": 0}  # TODO
+    constraints = {"latency": 1000, "power": 20, "area": 1}  # TODO
 
-    print("Testing accelerators with GEMM intrinsic ...")
+    print("[HASCO] Testing accelerators with GEMM intrinsic ...")
     generator = GEMMGenerator(stts, hw_space, dtype)
     benchmark = BenchmarkCNN("MobileNetV2", dtype, layout=generator.type)
     codesign(benchmark, generator, method,
              constraints, init_size=10, trial_num=20)
-    print("Passed.")
+    print("[HASCO] Passed.")

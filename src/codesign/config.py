@@ -29,14 +29,14 @@ tenet_statement_dir = os.path.join(tenet_input_dir, "statement/")
 # tenet_experiment_dir = os.path.join(tenet_input_dir, "experiment/")
 
 tenet_param = {
-    "avg_latency": 16,
+    "avg_latency": 8,
     "f_trans": 12,
-    "f_work": 16
+    "f_work": 4
 }
 
-tensorlib_home = "~/tensorlib/"  # TODO: stub
+tensorlib_home = "~/TensorLib/"  # TODO: stub
 
-tensorlib_main = "tensorlib.InterfaceMain"
+tensorlib_main = "tensorlib.ParseJson"
 
 
 model_config_dir = "config/"

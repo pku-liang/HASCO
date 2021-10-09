@@ -53,6 +53,15 @@ class accelerator:
         self.name = generator.type + "_" + tag
         self.intrin_func = generator.intrin_func
         self.intrin_size = intrin_size
+        if self.type == "CONV":
+            self.intrin_size = [
+                self.intrin_size[4],
+                self.intrin_size[1],
+                self.intrin_size[2],
+                self.intrin_size[3],
+                self.intrin_size[5],
+                self.intrin_size[6]
+            ]
         self.target = "c -device=micro_dev"
         self.flex_intrin = Intrinsic(self.type, self.name, self.intrin_func, intrin_args,
                                      acc_interface, self.target)
@@ -81,7 +90,7 @@ class accelerator:
 
             try:
                 subprocess.run(
-                    [f'(cd {tensorlib_home}; sbt "run {tensorlib_main} {input_file} {output_file}")'])
+                    f'(cd {tensorlib_home}; sbt "runMain {tensorlib_main} {input_file} {output_file}")', shell=True)
             except Exception as e:
                 print(e)
 
