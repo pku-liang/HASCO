@@ -24,4 +24,9 @@ mkdir -p rst/mapping
 mkdir -p rst/config
 mkdir -p rst/software
 
+
+echo "export TVM_HOME=`pwd`/src/tvm" >> ~/.bashrc
+echo "export AX_HOME=`pwd`/src/Ax" >> ~/.bashrc
+echo "export PYTHONPATH=$TVM_HOME/python:$AX_HOME:${PYTHONPATH}" >> ~/.bashrc
+
 echo "Finished"

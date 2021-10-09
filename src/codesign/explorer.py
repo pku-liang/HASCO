@@ -181,18 +181,18 @@ def build_hw_space(generator, constraints, method):
 
 def codesign(benchmark, generator, method, constraints, init_size=INIT_SIZE, trial_num=TRIAL_NUM, early_stop=EARLY_STOP):
 
-    print("#" * 50)
+    print("[HASCO] #" * 50)
     assert check_intrinsic(
         generator.type), f"unsupported generator {generator.type}"
     assert method in eval_methods, "measure method to be updated"
-    print("Generator Intrinsic: " + generator.type)
-    print("Evaluation Method: " + method)
-    print("Constraints: ", end='')
+    print("[HASCO] Generator Intrinsic: " + generator.type)
+    print("[HASCO] Evaluation Method: " + method)
+    print("[HASCO] Constraints: ", end='')
     for key in constraints:
         assert key in all_metrics, "unsupported metric"
         print(key + "  ", end='')
 
-    print("\nStarting ..." + "." * 30)
+    print("\n[HASCO] Starting ..." + "." * 30)
 
     '''buidling hardware design space'''
     exp = build_hw_space(generator, constraints, method)
@@ -218,7 +218,8 @@ def codesign(benchmark, generator, method, constraints, init_size=INIT_SIZE, tri
     same_cnt = 0
     '''MOBO: iterative update'''
     for i in range(trial_num):
-        print(f"Running GP+EHVI optimization trial {i+1}/{trial_num}...")
+        print(
+            f"[HASCO] Running GP+EHVI optimization trial {i+1}/{trial_num}...")
 
         '''Reinitialize GP+EHVI model at each step with updated data'''
         moo_model = get_MOO_EHVI(
@@ -250,15 +251,15 @@ def codesign(benchmark, generator, method, constraints, init_size=INIT_SIZE, tri
         if get_size(data) == data_size:
             same_cnt += 1
             if same_cnt >= early_stop:
-                print(f"Early quit at the #{i+1} trial ...")
+                print(f"[HASCO] Early quit at the #{i+1} trial ...")
                 break
         else:
             same_cnt = 0
 
-    print("#" * 50 + "\nReport:", end='')
+    print("[HASCO] #" * 50 + "\n[HASCO] Report:", end='')
     print(pareto_results)
     print(tags)
-    print("#" * 50 + "\nSaving Results ...")
+    print("[HASCO] #" * 50 + "\n[HASCO] Saving Results ...")
 
     '''saving software & hardware'''
     with open(os.path.join(rst_dir, f"{benchmark.name}_{generator.type}.csv"), "w") as csvfile:
@@ -275,6 +276,6 @@ def codesign(benchmark, generator, method, constraints, init_size=INIT_SIZE, tri
             csvfile.write(
                 f"{key},{params['x']},{params['y']},{params['dataflow']},{params['dma_buswidth']}\n")
 
-            print(f"{key} done!")
+            print(f"[HASCO] {key} done!")
 
-    print("All Done!")
+    print("[HASCO] All Done!")
