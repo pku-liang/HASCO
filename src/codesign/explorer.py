@@ -181,7 +181,7 @@ def build_hw_space(generator, constraints, method):
 
 def codesign(benchmark, generator, method, constraints, init_size=INIT_SIZE, trial_num=TRIAL_NUM, early_stop=EARLY_STOP):
 
-    print("[HASCO] #" * 50)
+    print("#" * 50)
     assert check_intrinsic(
         generator.type), f"unsupported generator {generator.type}"
     assert method in eval_methods, "measure method to be updated"
@@ -256,10 +256,10 @@ def codesign(benchmark, generator, method, constraints, init_size=INIT_SIZE, tri
         else:
             same_cnt = 0
 
-    print("[HASCO] #" * 50 + "\n[HASCO] Report:", end='')
+    print("#" * 50 + "\n[HASCO] Report:", end='')
     print(pareto_results)
     print(tags)
-    print("[HASCO] #" * 50 + "\n[HASCO] Saving Results ...")
+    print("#" * 50 + "\n[HASCO] Saving Results ...")
 
     '''saving software & hardware'''
     with open(os.path.join(rst_dir, f"{benchmark.name}_{generator.type}.csv"), "w") as csvfile:

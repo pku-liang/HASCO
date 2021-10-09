@@ -47,9 +47,9 @@ if __name__ == "__main__":
     parser.add_argument('-a', '--area', type=int, default=1,
                         help="constraints on area")
     parser.add_argument('--init', type=int, default=10,
-                        help="number of inititial trails")
-    parser.add_argument('--trail', type=int, default=20,
-                        help="number of trails")
+                        help="number of initial trails")
+    parser.add_argument('--iter', type=int, default=20,
+                        help="number of iterative trails")
     parser.add_argument('--dtype', type=str, default="int8",
                         help="dtype of the instinct")
     parser.add_argument('--method', type=str, default="Model",
