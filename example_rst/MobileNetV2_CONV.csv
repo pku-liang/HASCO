@@ -1,0 +1,4 @@
+key,x,y,dataflow,dma_buswidth
+latency,8,4,NVDLA,256
+power,32,4,NVDLA,64
+area,4,16,NVDLA,64

@@ -1,0 +1,1015 @@
+[produce C {
+  for (x.outer.init, 0, 3) {
+    for (k.outer.init, 0, 2) {
+      init_output(tvm_access_ptr(type_annotation(), C, ((x.outer.init*1184) + (k.outer.init*16)), 394272, 2), 1, 3, 1, 1, 0, 11, 0, 3)
+    }
+  }
+  // attr [iter_var(r.outer, )] pragma_epilogue = "do_fence"
+  for (s.outer, 0, 3) {
+    for (x.outer, 0, 3) {
+      for (k.outer, 0, 2) {
+        tensorized_CONV(tvm_access_ptr(type_annotation(), A, ((x.outer*111) + (s.outer*3)), 150528, 1), tvm_access_ptr(type_annotation(), B, ((s.outer*96) + (k.outer*16)), 864, 1), tvm_access_ptr(type_annotation(), C, ((x.outer*1184) + (k.outer*16)), 394272, 3), 1, 1, 7, 3, 1, 1, 1, 1, 0, 1, 11, 0, 3, 0, 0, (bool)1, (bool)0)
+      }
+    }
+  }
+  for (x.outer.init, 0, 3) {
+    for (k.outer.init, 0, 2) {
+      store_output(tvm_access_ptr(type_annotation(), C, ((x.outer.init*1184) + (k.outer.init*16)), 394272, 3), 1, 3, 1, 1, 0, 11, 0, 3)
+    }
+  }
+}
+, produce C {
+  // attr [iter_var(n.outer, )] pragma_epilogue = "do_fence"
+  for (y.outer.init, 0, 10) {
+    for (x.outer.init, 0, 11) {
+      for (k.outer.init, 0, 32) {
+        init_output(tvm_access_ptr(type_annotation(), C, (((y.outer.init*38720) + (x.outer.init*320)) + k.outer.init), 387200, 2), 1, 1, 1, 1, 0, 6, 15, 1)
+      }
+    }
+  }
+  for (r.outer, 0, 3) {
+    for (y.outer, 0, 10) {
+      for (x.outer, 0, 11) {
+        for (c.outer, 0, 32) {
+          for (k.outer, 0, 32) {
+            tensorized_CONV(tvm_access_ptr(type_annotation(), A, ((((y.outer*39424) + (r.outer*3584)) + (x.outer*320)) + c.outer), 401408, 1), tvm_access_ptr(type_annotation(), B, (((r.outer*96) + (c.outer*32)) + k.outer), 96, 1), tvm_access_ptr(type_annotation(), C, (((y.outer*38720) + (x.outer*320)) + k.outer), 387200, 3), 1, 1, 1, 1, 1, 1, 1, 1, 0, 5, 6, 15, 1, 2, 2, (bool)1, (bool)0)
+          }
+        }
+      }
+    }
+  }
+  for (y.outer.init, 0, 10) {
+    for (x.outer.init, 0, 11) {
+      for (k.outer.init, 0, 32) {
+        store_output(tvm_access_ptr(type_annotation(), C, (((y.outer.init*38720) + (x.outer.init*320)) + k.outer.init), 387200, 3), 1, 1, 1, 1, 0, 6, 15, 1)
+      }
+    }
+  }
+}
+, produce C {
+  // attr [iter_var(n.outer, )] pragma_epilogue = "do_fence"
+  for (y.outer, 0, 4) {
+    for (k.outer.init, 0, 16) {
+      init_output(tvm_access_ptr(type_annotation(), C, ((y.outer*50176) + k.outer.init), 200704, 2), 1, 7, 1, 1, 0, 0, 15, 3)
+    }
+    for (k.outer, 0, 16) {
+      tensorized_CONV(tvm_access_ptr(type_annotation(), A, (y.outer*100352), 100352, 1), tvm_access_ptr(type_annotation(), B, k.outer, 16384, 1), tvm_access_ptr(type_annotation(), C, ((y.outer*50176) + k.outer), 200704, 3), 1, 1, 2, 7, 1, 1, 11, 1, 0, 4, 0, 15, 3, 1, 2, (bool)1, (bool)0)
+    }
+    for (k.outer.init, 0, 16) {
+      store_output(tvm_access_ptr(type_annotation(), C, ((y.outer*50176) + k.outer.init), 200704, 3), 1, 7, 1, 1, 0, 0, 15, 3)
+    }
+  }
+}
+, produce C {
+  // attr [iter_var(n.outer, )] pragma_epilogue = "do_fence"
+  for (y.outer, 0, 28) {
+    for (x.outer, 0, 2) {
+      for (k.outer, 0, 4) {
+        init_output(tvm_access_ptr(type_annotation(), C, (((y.outer*43008) + (x.outer*5376)) + (k.outer*24)), 1204224, 2), 1, 4, 2, 1, 0, 8, 8, 3)
+        for (c.outer, 0, 2) {
+          tensorized_CONV(tvm_access_ptr(type_annotation(), A, (((y.outer*7168) + (x.outer*896)) + (c.outer*8)), 200704, 1), tvm_access_ptr(type_annotation(), B, ((c.outer*768) + (k.outer*24)), 1536, 1), tvm_access_ptr(type_annotation(), C, (((y.outer*43008) + (x.outer*5376)) + (k.outer*24)), 1204224, 3), 1, 1, 1, 4, 2, 1, 1, 3, 0, 12, 8, 8, 3, 2, 1, (bool)1, (bool)0)
+        }
+        store_output(tvm_access_ptr(type_annotation(), C, (((y.outer*43008) + (x.outer*5376)) + (k.outer*24)), 1204224, 3), 1, 4, 2, 1, 0, 8, 8, 3)
+      }
+    }
+  }
+}
+, produce C {
+  // attr [iter_var(n.outer, )] pragma_epilogue = "do_fence"
+  for (x.outer, 0, 56) {
+    for (k.outer, 0, 2) {
+      init_output(tvm_access_ptr(type_annotation(), C, ((x.outer*96) + (k.outer*48)), 301056, 2), 1, 1, 3, 1, 0, 15, 0, 8)
+      for (c.outer, 0, 4) {
+        tensorized_CONV(tvm_access_ptr(type_annotation(), A, ((x.outer*96) + (c.outer*24)), 1225824, 1), tvm_access_ptr(type_annotation(), B, ((c.outer*2304) + (k.outer*48)), 864, 1), tvm_access_ptr(type_annotation(), C, ((x.outer*96) + (k.outer*48)), 301056, 3), 1, 1, 7, 1, 3, 1, 1, 1, 0, 0, 15, 0, 8, 0, 0, (bool)1, (bool)0)
+      }
+      store_output(tvm_access_ptr(type_annotation(), C, ((x.outer*96) + (k.outer*48)), 301056, 3), 1, 1, 3, 1, 0, 15, 0, 8)
+    }
+  }
+}
+, produce C {
+  // attr [iter_var(n.outer, )] pragma_epilogue = "do_fence"
+  for (y.outer, 0, 7) {
+    for (x.outer, 0, 4) {
+      init_output(tvm_access_ptr(type_annotation(), C, ((y.outer*10752) + (x.outer*336)), 75264, 2), 1, 1, 2, 1, 0, 2, 8, 3)
+      for (c.outer, 0, 2) {
+        tensorized_CONV(tvm_access_ptr(type_annotation(), A, (((y.outer*43008) + (x.outer*1344)) + (c.outer*48)), 301056, 1), tvm_access_ptr(type_annotation(), B, (c.outer*1152), 55296, 1), tvm_access_ptr(type_annotation(), C, ((y.outer*10752) + (x.outer*336)), 75264, 3), 1, 1, 1, 1, 2, 1, 16, 1, 0, 8, 2, 8, 3, 0, 2, (bool)1, (bool)0)
+      }
+      store_output(tvm_access_ptr(type_annotation(), C, ((y.outer*10752) + (x.outer*336)), 75264, 3), 1, 1, 2, 1, 0, 2, 8, 3)
+    }
+  }
+}
+, produce C {
+  for (y.outer.init, 0, 4) {
+    for (x.outer.init, 0, 56) {
+      for (k.outer.init, 0, 72) {
+        init_output(tvm_access_ptr(type_annotation(), C, (((y.outer.init*112896) + (x.outer.init*144)) + (k.outer.init*2)), 451584, 2), 1, 1, 1, 1, 0, 15, 14, 7)
+      }
+    }
+  }
+  // attr [iter_var(r.outer, )] pragma_epilogue = "do_fence"
+  for (y.outer, 0, 4) {
+    for (c.outer, 0, 24) {
+      for (x.outer, 0, 56) {
+        for (k.outer, 0, 72) {
+          tensorized_CONV(tvm_access_ptr(type_annotation(), A, (((y.outer*18816) + (x.outer*24)) + c.outer), 75264, 1), tvm_access_ptr(type_annotation(), B, ((c.outer*144) + (k.outer*2)), 2, 1), tvm_access_ptr(type_annotation(), C, (((y.outer*112896) + (x.outer*144)) + (k.outer*2)), 451584, 3), 1, 1, 4, 1, 1, 1, 1, 1, 0, 2, 15, 14, 7, 2, 2, (bool)1, (bool)0)
+        }
+      }
+    }
+  }
+  for (y.outer.init, 0, 4) {
+    for (x.outer.init, 0, 56) {
+      for (k.outer.init, 0, 72) {
+        store_output(tvm_access_ptr(type_annotation(), C, (((y.outer.init*112896) + (x.outer.init*144)) + (k.outer.init*2)), 451584, 3), 1, 1, 1, 1, 0, 15, 14, 7)
+      }
+    }
+  }
+}
+, produce C {
+  for (y.outer.init, 0, 27) {
+    for (k.outer.init, 0, 144) {
+      init_output(tvm_access_ptr(type_annotation(), C, ((y.outer.init*15552) + k.outer.init), 419904, 2), 1, 4, 1, 1, 0, 10, 15, 8)
+    }
+  }
+  // attr [iter_var(r.outer, )] pragma_epilogue = "do_fence"
+  for (r.outer, 0, 3) {
+    for (c.outer, 0, 6) {
+      for (y.outer, 0, 27) {
+        for (k.outer, 0, 144) {
+          tensorized_CONV(tvm_access_ptr(type_annotation(), A, (((y.outer*16128) + (r.outer*8064)) + (c.outer*24)), 451584, 1), tvm_access_ptr(type_annotation(), B, (((c.outer*3456) + (r.outer*432)) + k.outer), 432, 1), tvm_access_ptr(type_annotation(), C, ((y.outer*15552) + k.outer), 419904, 3), 1, 1, 1, 4, 1, 1, 1, 1, 0, 6, 10, 15, 8, 2, 0, (bool)1, (bool)0)
+        }
+      }
+    }
+  }
+  for (y.outer.init, 0, 27) {
+    for (k.outer.init, 0, 144) {
+      store_output(tvm_access_ptr(type_annotation(), C, ((y.outer.init*15552) + k.outer.init), 419904, 3), 1, 4, 1, 1, 0, 10, 15, 8)
+    }
+  }
+}
+, produce C {
+  for (y.outer.init, 0, 56) {
+    for (x.outer.init, 0, 56) {
+      for (k.outer.init, 0, 8) {
+        init_output(tvm_access_ptr(type_annotation(), C, (((y.outer.init*1344) + (x.outer.init*24)) + (k.outer.init*3)), 3, 2), 1, 1, 1, 1, 0, 15, 13, 3)
+      }
+    }
+  }
+  // attr [iter_var(r.outer, )] pragma_epilogue = "do_fence"
+  for (c.outer, 0, 4) {
+    for (y.outer, 0, 56) {
+      for (x.outer, 0, 56) {
+        for (k.outer, 0, 8) {
+          tensorized_CONV(tvm_access_ptr(type_annotation(), A, (((y.outer*8064) + (x.outer*144)) + (c.outer*36)), 36, 1), tvm_access_ptr(type_annotation(), B, ((c.outer*864) + (k.outer*3)), 124416, 1), tvm_access_ptr(type_annotation(), C, (((y.outer*1344) + (x.outer*24)) + (k.outer*3)), 3, 3), 1, 1, 1, 1, 1, 1, 12, 1, 0, 15, 15, 13, 3, 0, 2, (bool)1, (bool)0)
+        }
+      }
+    }
+  }
+  for (y.outer.init, 0, 56) {
+    for (x.outer.init, 0, 56) {
+      for (k.outer.init, 0, 8) {
+        store_output(tvm_access_ptr(type_annotation(), C, (((y.outer.init*1344) + (x.outer.init*24)) + (k.outer.init*3)), 3, 3), 1, 1, 1, 1, 0, 15, 13, 3)
+      }
+    }
+  }
+}
+, produce C {
+  for (y.outer.init, 0, 7) {
+    for (x.outer.init, 0, 4) {
+      for (k.outer.init, 0, 2) {
+        init_output(tvm_access_ptr(type_annotation(), C, (((y.outer.init*64512) + (x.outer.init*2016)) + (k.outer.init*72)), 451584, 2), 1, 1, 5, 1, 0, 2, 8, 15)
+      }
+    }
+  }
+  // attr [iter_var(r.outer, )] pragma_epilogue = "do_fence"
+  for (c.outer, 0, 8) {
+    for (y.outer, 0, 7) {
+      for (x.outer, 0, 4) {
+        for (k.outer, 0, 2) {
+          tensorized_CONV(tvm_access_ptr(type_annotation(), A, (((y.outer*10752) + (x.outer*336)) + (c.outer*3)), 75264, 1), tvm_access_ptr(type_annotation(), B, ((c.outer*432) + (k.outer*72)), 10368, 1), tvm_access_ptr(type_annotation(), C, (((y.outer*64512) + (x.outer*2016)) + (k.outer*72)), 451584, 3), 1, 1, 1, 1, 5, 1, 1, 1, 0, 0, 2, 8, 15, 0, 2, (bool)1, (bool)0)
+        }
+      }
+    }
+  }
+  for (y.outer.init, 0, 7) {
+    for (x.outer.init, 0, 4) {
+      for (k.outer.init, 0, 2) {
+        store_output(tvm_access_ptr(type_annotation(), C, (((y.outer.init*64512) + (x.outer.init*2016)) + (k.outer.init*72)), 451584, 3), 1, 1, 5, 1, 0, 2, 8, 15)
+      }
+    }
+  }
+}
+, produce C {
+  // attr [iter_var(n.outer, )] pragma_epilogue = "do_fence"
+  for (x.outer.init, 0, 4) {
+    for (k.outer.init, 0, 16) {
+      init_output(tvm_access_ptr(type_annotation(), C, ((x.outer.init*1008) + (k.outer.init*9)), 112896, 2), 1, 1, 1, 1, 0, 9, 7, 16)
+    }
+  }
+  for (r.outer, 0, 3) {
+    for (s.outer, 0, 3) {
+      for (x.outer, 0, 4) {
+        for (c.outer, 0, 9) {
+          for (k.outer, 0, 16) {
+            tensorized_CONV(tvm_access_ptr(type_annotation(), A, ((((r.outer*8208) + (x.outer*1008)) + (s.outer*144)) + (c.outer*16)), 467856, 1), tvm_access_ptr(type_annotation(), B, ((((c.outer*2304) + (r.outer*432)) + (s.outer*144)) + (k.outer*9)), 432, 1), tvm_access_ptr(type_annotation(), C, ((x.outer*1008) + (k.outer*9)), 112896, 3), 1, 1, 4, 1, 1, 1, 1, 1, 0, 4, 9, 7, 16, 2, 2, (bool)1, (bool)0)
+          }
+        }
+      }
+    }
+  }
+  for (x.outer.init, 0, 4) {
+    for (k.outer.init, 0, 16) {
+      store_output(tvm_access_ptr(type_annotation(), C, ((x.outer.init*1008) + (k.outer.init*9)), 112896, 3), 1, 1, 1, 1, 0, 9, 7, 16)
+    }
+  }
+}
+, produce C {
+  for (y.outer.init, 0, 4) {
+    init_output(tvm_access_ptr(type_annotation(), C, (y.outer.init*6272), 6272, 2), 1, 2, 2, 1, 0, 4, 0, 31)
+  }
+  // attr [iter_var(r.outer, )] pragma_epilogue = "do_fence"
+  for (y.outer, 0, 4) {
+    for (c.outer, 0, 144) {
+      tensorized_CONV(tvm_access_ptr(type_annotation(), A, ((y.outer*28224) + c.outer), 112896, 1), tvm_access_ptr(type_annotation(), B, (c.outer*32), 32, 1), tvm_access_ptr(type_annotation(), C, (y.outer*6272), 6272, 3), 1, 1, 1, 2, 2, 1, 1, 1, 0, 1, 4, 0, 31, 2, 2, (bool)1, (bool)0)
+    }
+  }
+  for (y.outer.init, 0, 4) {
+    store_output(tvm_access_ptr(type_annotation(), C, (y.outer.init*6272), 6272, 3), 1, 2, 2, 1, 0, 4, 0, 31)
+  }
+}
+, produce C {
+  for (y.outer.init, 0, 7) {
+    for (x.outer.init, 0, 14) {
+      for (k.outer.init, 0, 4) {
+        init_output(tvm_access_ptr(type_annotation(), C, (((y.outer.init*21504) + (x.outer.init*384)) + (k.outer.init*48)), 150528, 2), 1, 1, 3, 1, 0, 14, 0, 14)
+      }
+    }
+  }
+  // attr [iter_var(r.outer, )] pragma_epilogue = "do_fence"
+  for (y.outer, 0, 7) {
+    for (c.outer, 0, 16) {
+      for (x.outer, 0, 14) {
+        for (k.outer, 0, 4) {
+          tensorized_CONV(tvm_access_ptr(type_annotation(), A, (((y.outer*3584) + (x.outer*64)) + (c.outer*2)), 25088, 1), tvm_access_ptr(type_annotation(), B, ((c.outer*384) + (k.outer*48)), 6144, 1), tvm_access_ptr(type_annotation(), C, (((y.outer*21504) + (x.outer*384)) + (k.outer*48)), 150528, 3), 1, 1, 1, 1, 3, 1, 1, 1, 0, 4, 14, 0, 14, 2, 2, (bool)1, (bool)0)
+        }
+      }
+    }
+  }
+  for (y.outer.init, 0, 7) {
+    for (x.outer.init, 0, 14) {
+      for (k.outer.init, 0, 4) {
+        store_output(tvm_access_ptr(type_annotation(), C, (((y.outer.init*21504) + (x.outer.init*384)) + (k.outer.init*48)), 150528, 3), 1, 1, 3, 1, 0, 14, 0, 14)
+      }
+    }
+  }
+}
+, produce C {
+  for (y.outer.init, 0, 2) {
+    for (x.outer.init, 0, 26) {
+      for (k.outer.init, 0, 4) {
+        init_output(tvm_access_ptr(type_annotation(), C, (((y.outer.init*64896) + (x.outer.init*192)) + (k.outer.init*48)), 129792, 2), 1, 1, 3, 1, 0, 15, 0, 7)
+      }
+    }
+  }
+  // attr [iter_var(r.outer, )] pragma_epilogue = "do_fence"
+  for (s.outer, 0, 3) {
+    for (y.outer, 0, 2) {
+      for (x.outer, 0, 26) {
+        for (k.outer, 0, 4) {
+          tensorized_CONV(tvm_access_ptr(type_annotation(), A, (((y.outer*69888) + (x.outer*192)) + (s.outer*192)), 150528, 1), tvm_access_ptr(type_annotation(), B, ((s.outer*192) + (k.outer*48)), 110592, 1), tvm_access_ptr(type_annotation(), C, (((y.outer*64896) + (x.outer*192)) + (k.outer*48)), 129792, 3), 1, 1, 4, 1, 3, 1, 64, 1, 0, 3, 15, 0, 7, 0, 0, (bool)1, (bool)0)
+        }
+      }
+    }
+  }
+  for (y.outer.init, 0, 2) {
+    for (x.outer.init, 0, 26) {
+      for (k.outer.init, 0, 4) {
+        store_output(tvm_access_ptr(type_annotation(), C, (((y.outer.init*64896) + (x.outer.init*192)) + (k.outer.init*48)), 129792, 3), 1, 1, 3, 1, 0, 15, 0, 7)
+      }
+    }
+  }
+}
+, produce C {
+  // attr [iter_var(n.outer, )] pragma_epilogue = "do_fence"
+  for (y.outer, 0, 28) {
+    for (k.outer.init, 0, 32) {
+      init_output(tvm_access_ptr(type_annotation(), C, ((y.outer*896) + k.outer.init), 25088, 2), 1, 2, 1, 6, 0, 4, 15, 0)
+    }
+    for (k.outer, 0, 32) {
+      for (c.outer, 0, 8) {
+        tensorized_CONV(tvm_access_ptr(type_annotation(), A, ((y.outer*5376) + (c.outer*24)), 150528, 1), tvm_access_ptr(type_annotation(), B, ((c.outer*768) + k.outer), 6144, 1), tvm_access_ptr(type_annotation(), C, ((y.outer*896) + k.outer), 25088, 3), 1, 1, 1, 2, 1, 6, 1, 1, 0, 15, 4, 15, 0, 2, 2, (bool)1, (bool)0)
+      }
+    }
+    for (k.outer.init, 0, 32) {
+      store_output(tvm_access_ptr(type_annotation(), C, ((y.outer*896) + k.outer.init), 25088, 3), 1, 2, 1, 6, 0, 4, 15, 0)
+    }
+  }
+}
+, produce C {
+  // attr [iter_var(n.outer, )] pragma_epilogue = "do_fence"
+  for (y.outer, 0, 4) {
+    for (x.outer, 0, 14) {
+      for (k.outer, 0, 64) {
+        init_output(tvm_access_ptr(type_annotation(), C, (((y.outer*37632) + (x.outer*384)) + (k.outer*3)), 150528, 2), 1, 1, 1, 1, 0, 14, 13, 3)
+        for (c.outer, 0, 32) {
+          tensorized_CONV(tvm_access_ptr(type_annotation(), A, (((y.outer*6272) + (x.outer*64)) + c.outer), 25088, 1), tvm_access_ptr(type_annotation(), B, ((c.outer*192) + (k.outer*3)), 3, 1), tvm_access_ptr(type_annotation(), C, (((y.outer*37632) + (x.outer*384)) + (k.outer*3)), 150528, 3), 1, 1, 1, 1, 1, 1, 1, 1, 0, 9, 14, 13, 3, 2, 2, (bool)1, (bool)0)
+        }
+        store_output(tvm_access_ptr(type_annotation(), C, (((y.outer*37632) + (x.outer*384)) + (k.outer*3)), 150528, 3), 1, 1, 1, 1, 0, 14, 13, 3)
+      }
+    }
+  }
+}
+, produce C {
+  // attr [iter_var(n.outer, )] pragma_epilogue = "do_fence"
+  for (x.outer.init, 0, 2) {
+    for (k.outer.init, 0, 32) {
+      init_output(tvm_access_ptr(type_annotation(), C, ((x.outer.init*2496) + (k.outer.init*6)), 129792, 2), 1, 1, 1, 1, 0, 3, 10, 16)
+    }
+  }
+  for (x.outer, 0, 2) {
+    for (k.outer, 0, 32) {
+      for (c.outer, 0, 12) {
+        tensorized_CONV(tvm_access_ptr(type_annotation(), A, ((x.outer*2496) + (c.outer*16)), 150528, 1), tvm_access_ptr(type_annotation(), B, ((c.outer*3072) + (k.outer*6)), 1728, 1), tvm_access_ptr(type_annotation(), C, ((x.outer*2496) + (k.outer*6)), 129792, 3), 1, 1, 4, 1, 1, 1, 1, 1, 0, 6, 3, 10, 16, 0, 0, (bool)1, (bool)0)
+      }
+    }
+  }
+  for (x.outer.init, 0, 2) {
+    for (k.outer.init, 0, 32) {
+      store_output(tvm_access_ptr(type_annotation(), C, ((x.outer.init*2496) + (k.outer.init*6)), 129792, 3), 1, 1, 1, 1, 0, 3, 10, 16)
+    }
+  }
+}
+, produce C {
+  // attr [iter_var(n.outer, )] pragma_epilogue = "do_fence"
+  for (y.outer, 0, 2) {
+    for (x.outer.init, 0, 14) {
+      init_output(tvm_access_ptr(type_annotation(), C, ((y.outer*12544) + (x.outer.init*64)), 25088, 2), 1, 1, 2, 4, 0, 14, 0, 0)
+    }
+    for (x.outer, 0, 14) {
+      for (c.outer, 0, 6) {
+        tensorized_CONV(tvm_access_ptr(type_annotation(), A, (((y.outer*75264) + (x.outer*384)) + (c.outer*32)), 150528, 1), tvm_access_ptr(type_annotation(), B, (c.outer*1024), 1024, 1), tvm_access_ptr(type_annotation(), C, ((y.outer*12544) + (x.outer*64)), 25088, 3), 1, 1, 4, 1, 2, 4, 1, 1, 0, 2, 14, 0, 0, 2, 2, (bool)1, (bool)0)
+      }
+    }
+    for (x.outer.init, 0, 14) {
+      store_output(tvm_access_ptr(type_annotation(), C, ((y.outer*12544) + (x.outer.init*64)), 25088, 3), 1, 1, 2, 4, 0, 14, 0, 0)
+    }
+  }
+}
+, produce C {
+  for (y.outer.init, 0, 14) {
+    for (k.outer.init, 0, 48) {
+      init_output(tvm_access_ptr(type_annotation(), C, ((y.outer.init*10752) + (k.outer.init*4)), 150528, 2), 1, 2, 1, 1, 0, 4, 12, 7)
+    }
+  }
+  // attr [iter_var(r.outer, )] pragma_epilogue = "do_fence"
+  for (y.outer, 0, 14) {
+    for (c.outer, 0, 32) {
+      for (k.outer, 0, 48) {
+        tensorized_CONV(tvm_access_ptr(type_annotation(), A, ((y.outer*1792) + c.outer), 25088, 1), tvm_access_ptr(type_annotation(), B, ((c.outer*192) + (k.outer*4)), 4, 1), tvm_access_ptr(type_annotation(), C, ((y.outer*10752) + (k.outer*4)), 150528, 3), 1, 1, 1, 2, 1, 1, 1, 1, 0, 2, 4, 12, 7, 2, 2, (bool)1, (bool)0)
+      }
+    }
+  }
+  for (y.outer.init, 0, 14) {
+    for (k.outer.init, 0, 48) {
+      store_output(tvm_access_ptr(type_annotation(), C, ((y.outer.init*10752) + (k.outer.init*4)), 150528, 3), 1, 2, 1, 1, 0, 4, 12, 7)
+    }
+  }
+}
+, produce C {
+  // attr [iter_var(n.outer, )] pragma_epilogue = "do_fence"
+  for (k.outer.init, 0, 16) {
+    init_output(tvm_access_ptr(type_annotation(), C, (k.outer.init*12), 37632, 2), 1, 1, 1, 1, 0, 2, 4, 29)
+  }
+  for (k.outer, 0, 16) {
+    tensorized_CONV(tvm_access_ptr(type_annotation(), A, 0, 161472, 1), tvm_access_ptr(type_annotation(), B, (k.outer*12), 1728, 1), tvm_access_ptr(type_annotation(), C, (k.outer*12), 37632, 3), 1, 1, 2, 1, 1, 1, 1, 64, 0, 2, 2, 4, 29, 0, 0, (bool)1, (bool)0)
+  }
+  for (k.outer.init, 0, 16) {
+    store_output(tvm_access_ptr(type_annotation(), C, (k.outer.init*12), 37632, 3), 1, 1, 1, 1, 0, 2, 4, 29)
+  }
+}
+, produce C {
+  for (y.outer.init, 0, 7) {
+    for (k.outer.init, 0, 8) {
+      init_output(tvm_access_ptr(type_annotation(), C, ((y.outer.init*1792) + (k.outer.init*8)), 12544, 2), 1, 1, 1, 1, 0, 2, 8, 7)
+    }
+  }
+  // attr [iter_var(r.outer, )] pragma_epilogue = "do_fence"
+  for (c.outer, 0, 24) {
+    for (y.outer, 0, 7) {
+      for (k.outer, 0, 8) {
+        tensorized_CONV(tvm_access_ptr(type_annotation(), A, ((y.outer*5376) + (c.outer*8)), 37632, 1), tvm_access_ptr(type_annotation(), B, ((c.outer*512) + (k.outer*8)), 98304, 1), tvm_access_ptr(type_annotation(), C, ((y.outer*1792) + (k.outer*8)), 12544, 3), 1, 1, 1, 1, 1, 1, 3, 1, 0, 2, 2, 8, 7, 1, 2, (bool)1, (bool)0)
+      }
+    }
+  }
+  for (y.outer.init, 0, 7) {
+    for (k.outer.init, 0, 8) {
+      store_output(tvm_access_ptr(type_annotation(), C, ((y.outer.init*1792) + (k.outer.init*8)), 12544, 3), 1, 1, 1, 1, 0, 2, 8, 7)
+    }
+  }
+}
+, produce C {
+  // attr [iter_var(n.outer, )] pragma_epilogue = "do_fence"
+  for (x.outer.init, 0, 2) {
+    for (k.outer.init, 0, 12) {
+      init_output(tvm_access_ptr(type_annotation(), C, ((x.outer.init*2688) + (k.outer.init*32)), 75264, 2), 1, 1, 2, 1, 0, 9, 0, 3)
+    }
+  }
+  for (x.outer, 0, 2) {
+    for (c.outer, 0, 16) {
+      for (k.outer, 0, 12) {
+        tensorized_CONV(tvm_access_ptr(type_annotation(), A, ((x.outer*448) + (c.outer*4)), 12544, 1), tvm_access_ptr(type_annotation(), B, ((c.outer*1536) + (k.outer*32)), 24576, 1), tvm_access_ptr(type_annotation(), C, ((x.outer*2688) + (k.outer*32)), 75264, 3), 1, 1, 1, 1, 2, 1, 1, 2, 0, 2, 9, 0, 3, 2, 2, (bool)1, (bool)0)
+      }
+    }
+  }
+  for (x.outer.init, 0, 2) {
+    for (k.outer.init, 0, 12) {
+      store_output(tvm_access_ptr(type_annotation(), C, ((x.outer.init*2688) + (k.outer.init*32)), 75264, 3), 1, 1, 2, 1, 0, 9, 0, 3)
+    }
+  }
+}
+, produce C {
+  // attr [iter_var(n.outer, )] pragma_epilogue = "do_fence"
+  for (y.outer, 0, 3) {
+    for (x.outer, 0, 12) {
+      for (k.outer, 0, 64) {
+        init_output(tvm_access_ptr(type_annotation(), C, (((y.outer*18432) + (x.outer*384)) + (k.outer*6)), 55296, 2), 1, 1, 1, 1, 0, 15, 10, 2)
+        for (c.outer, 0, 64) {
+          tensorized_CONV(tvm_access_ptr(type_annotation(), A, (((y.outer*21504) + (x.outer*384)) + (c.outer*6)), 75264, 1), tvm_access_ptr(type_annotation(), B, ((c.outer*2304) + (k.outer*6)), 3456, 1), tvm_access_ptr(type_annotation(), C, (((y.outer*18432) + (x.outer*384)) + (k.outer*6)), 55296, 3), 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 15, 10, 2, 0, 0, (bool)1, (bool)0)
+        }
+        store_output(tvm_access_ptr(type_annotation(), C, (((y.outer*18432) + (x.outer*384)) + (k.outer*6)), 55296, 3), 1, 1, 1, 1, 0, 15, 10, 2)
+      }
+    }
+  }
+}
+, produce C {
+  // attr [iter_var(n.outer, )] pragma_epilogue = "do_fence"
+  for (y.outer, 0, 2) {
+    for (x.outer, 0, 7) {
+      for (k.outer, 0, 2) {
+        init_output(tvm_access_ptr(type_annotation(), C, (((y.outer*6272) + (x.outer*128)) + (k.outer*32)), 12544, 2), 1, 1, 2, 1, 0, 14, 0, 15)
+        for (c.outer, 0, 2) {
+          tensorized_CONV(tvm_access_ptr(type_annotation(), A, (((y.outer*37632) + (x.outer*768)) + (c.outer*192)), 75264, 1), tvm_access_ptr(type_annotation(), B, ((c.outer*12288) + (k.outer*32)), 24576, 1), tvm_access_ptr(type_annotation(), C, (((y.outer*6272) + (x.outer*128)) + (k.outer*32)), 12544, 3), 1, 1, 1, 1, 2, 1, 1, 64, 0, 1, 14, 0, 15, 2, 0, (bool)1, (bool)0)
+        }
+        store_output(tvm_access_ptr(type_annotation(), C, (((y.outer*6272) + (x.outer*128)) + (k.outer*32)), 12544, 3), 1, 1, 2, 1, 0, 14, 0, 15)
+      }
+    }
+  }
+}
+, produce C {
+  // attr [iter_var(n.outer, )] pragma_epilogue = "do_fence"
+  for (y.outer, 0, 14) {
+    for (x.outer, 0, 2) {
+      for (k.outer, 0, 16) {
+        init_output(tvm_access_ptr(type_annotation(), C, (((y.outer*5376) + (x.outer*2688)) + (k.outer*24)), 75264, 2), 1, 1, 2, 1, 0, 9, 8, 15)
+        tensorized_CONV(tvm_access_ptr(type_annotation(), A, ((y.outer*896) + (x.outer*448)), 448, 1), tvm_access_ptr(type_annotation(), B, (k.outer*24), 24576, 1), tvm_access_ptr(type_annotation(), C, (((y.outer*5376) + (x.outer*2688)) + (k.outer*24)), 75264, 3), 1, 1, 1, 1, 2, 1, 1, 22, 0, 7, 9, 8, 15, 2, 2, (bool)1, (bool)0)
+        store_output(tvm_access_ptr(type_annotation(), C, (((y.outer*5376) + (x.outer*2688)) + (k.outer*24)), 75264, 3), 1, 1, 2, 1, 0, 9, 8, 15)
+      }
+    }
+  }
+}
+, produce C {
+  // attr [iter_var(n.outer, )] pragma_epilogue = "do_fence"
+  for (y.outer, 0, 6) {
+    for (x.outer.init, 0, 12) {
+      for (k.outer.init, 0, 3) {
+        init_output(tvm_access_ptr(type_annotation(), C, (((y.outer*9216) + (x.outer.init*384)) + (k.outer.init*128)), 55296, 2), 1, 1, 8, 1, 0, 15, 0, 15)
+      }
+    }
+    for (r.outer, 0, 3) {
+      for (x.outer, 0, 12) {
+        for (k.outer, 0, 3) {
+          for (c.outer, 0, 2) {
+            tensorized_CONV(tvm_access_ptr(type_annotation(), A, ((((y.outer*10752) + (r.outer*5376)) + (x.outer*384)) + (c.outer*192)), 75264, 1), tvm_access_ptr(type_annotation(), B, (((c.outer*73728) + (r.outer*1152)) + (k.outer*128)), 3456, 1), tvm_access_ptr(type_annotation(), C, (((y.outer*9216) + (x.outer*384)) + (k.outer*128)), 55296, 3), 1, 1, 1, 1, 8, 1, 1, 64, 0, 6, 15, 0, 15, 0, 0, (bool)1, (bool)0)
+          }
+        }
+      }
+    }
+    for (x.outer.init, 0, 12) {
+      for (k.outer.init, 0, 3) {
+        store_output(tvm_access_ptr(type_annotation(), C, (((y.outer*9216) + (x.outer.init*384)) + (k.outer.init*128)), 55296, 3), 1, 1, 8, 1, 0, 15, 0, 15)
+      }
+    }
+  }
+}
+, produce C {
+  // attr [iter_var(n.outer, )] pragma_epilogue = "do_fence"
+  for (y.outer, 0, 14) {
+    for (k.outer.init, 0, 8) {
+      init_output(tvm_access_ptr(type_annotation(), C, ((y.outer*896) + (k.outer.init*8)), 12544, 2), 1, 1, 1, 1, 0, 2, 8, 31)
+    }
+    for (k.outer, 0, 8) {
+      for (c.outer, 0, 3) {
+        tensorized_CONV(tvm_access_ptr(type_annotation(), A, ((y.outer*5376) + (c.outer*128)), 75264, 1), tvm_access_ptr(type_annotation(), B, ((c.outer*8192) + (k.outer*8)), 3145728, 1), tvm_access_ptr(type_annotation(), C, ((y.outer*896) + (k.outer*8)), 12544, 3), 1, 1, 1, 1, 1, 1, 43, 1, 0, 7, 2, 8, 31, 1, 2, (bool)1, (bool)0)
+      }
+    }
+    for (k.outer.init, 0, 8) {
+      store_output(tvm_access_ptr(type_annotation(), C, ((y.outer*896) + (k.outer.init*8)), 12544, 3), 1, 1, 1, 1, 0, 2, 8, 31)
+    }
+  }
+}
+, produce C {
+  for (y.outer.init, 0, 14) {
+    for (x.outer.init, 0, 7) {
+      for (k.outer.init, 0, 16) {
+        init_output(tvm_access_ptr(type_annotation(), C, (((y.outer.init*5376) + (x.outer.init*768)) + (k.outer.init*24)), 75264, 2), 1, 1, 2, 1, 0, 14, 8, 6)
+      }
+    }
+  }
+  // attr [iter_var(r.outer, )] pragma_epilogue = "do_fence"
+  for (y.outer, 0, 14) {
+    for (c.outer, 0, 32) {
+      for (x.outer, 0, 7) {
+        for (k.outer, 0, 16) {
+          tensorized_CONV(tvm_access_ptr(type_annotation(), A, (((y.outer*896) + (x.outer*128)) + (c.outer*2)), 12544, 1), tvm_access_ptr(type_annotation(), B, ((c.outer*768) + (k.outer*24)), 24576, 1), tvm_access_ptr(type_annotation(), C, (((y.outer*5376) + (x.outer*768)) + (k.outer*24)), 75264, 3), 1, 1, 1, 1, 2, 1, 1, 1, 0, 3, 14, 8, 6, 2, 2, (bool)1, (bool)0)
+        }
+      }
+    }
+  }
+  for (y.outer.init, 0, 14) {
+    for (x.outer.init, 0, 7) {
+      for (k.outer.init, 0, 16) {
+        store_output(tvm_access_ptr(type_annotation(), C, (((y.outer.init*5376) + (x.outer.init*768)) + (k.outer.init*24)), 75264, 3), 1, 1, 2, 1, 0, 14, 8, 6)
+      }
+    }
+  }
+}
+, produce C {
+  for (y.outer.init, 0, 6) {
+    for (x.outer.init, 0, 3) {
+      for (k.outer.init, 0, 8) {
+        init_output(tvm_access_ptr(type_annotation(), C, (((y.outer.init*9216) + (x.outer.init*1536)) + (k.outer.init*48)), 55296, 2), 1, 1, 3, 1, 0, 12, 0, 3)
+      }
+    }
+  }
+  // attr [iter_var(r.outer, )] pragma_epilogue = "do_fence"
+  for (s.outer, 0, 3) {
+    for (c.outer, 0, 48) {
+      for (y.outer, 0, 6) {
+        for (x.outer, 0, 3) {
+          for (k.outer, 0, 8) {
+            tensorized_CONV(tvm_access_ptr(type_annotation(), A, ((((y.outer*10752) + (x.outer*1536)) + (s.outer*384)) + (c.outer*8)), 75264, 1), tvm_access_ptr(type_annotation(), B, (((c.outer*3072) + (s.outer*384)) + (k.outer*48)), 9216, 1), tvm_access_ptr(type_annotation(), C, (((y.outer*9216) + (x.outer*1536)) + (k.outer*48)), 55296, 3), 1, 1, 1, 1, 3, 1, 3, 1, 0, 14, 12, 0, 3, 1, 0, (bool)1, (bool)0)
+          }
+        }
+      }
+    }
+  }
+  for (y.outer.init, 0, 6) {
+    for (x.outer.init, 0, 3) {
+      for (k.outer.init, 0, 8) {
+        store_output(tvm_access_ptr(type_annotation(), C, (((y.outer.init*9216) + (x.outer.init*1536)) + (k.outer.init*48)), 55296, 3), 1, 1, 3, 1, 0, 12, 0, 3)
+      }
+    }
+  }
+}
+, produce C {
+  // attr [iter_var(n.outer, )] pragma_epilogue = "do_fence"
+  for (y.outer, 0, 7) {
+    for (x.outer.init, 0, 14) {
+      for (k.outer.init, 0, 8) {
+        init_output(tvm_access_ptr(type_annotation(), C, (((y.outer*1792) + (x.outer.init*64)) + (k.outer.init*8)), 12544, 2), 1, 1, 1, 6, 0, 15, 8, 0)
+      }
+    }
+    for (x.outer, 0, 14) {
+      for (k.outer, 0, 8) {
+        for (c.outer, 0, 4) {
+          tensorized_CONV(tvm_access_ptr(type_annotation(), A, (((y.outer*10752) + (x.outer*384)) + (c.outer*96)), 75264, 1), tvm_access_ptr(type_annotation(), B, ((c.outer*6144) + (k.outer*8)), 24576, 1), tvm_access_ptr(type_annotation(), C, (((y.outer*1792) + (x.outer*64)) + (k.outer*8)), 12544, 3), 1, 1, 1, 1, 1, 6, 1, 1, 0, 6, 15, 8, 0, 2, 2, (bool)1, (bool)0)
+        }
+      }
+    }
+    for (x.outer.init, 0, 14) {
+      for (k.outer.init, 0, 8) {
+        store_output(tvm_access_ptr(type_annotation(), C, (((y.outer*1792) + (x.outer.init*64)) + (k.outer.init*8)), 12544, 3), 1, 1, 1, 6, 0, 15, 8, 0)
+      }
+    }
+  }
+}
+, produce C {
+  for (y.outer.init, 0, 14) {
+    for (x.outer.init, 0, 14) {
+      for (k.outer.init, 0, 192) {
+        init_output(tvm_access_ptr(type_annotation(), C, (((y.outer.init*5376) + (x.outer.init*384)) + (k.outer.init*2)), 2, 2), 1, 1, 1, 1, 0, 15, 14, 24)
+      }
+    }
+  }
+  // attr [iter_var(r.outer, )] pragma_epilogue = "do_fence"
+  for (c.outer, 0, 8) {
+    for (y.outer, 0, 14) {
+      for (x.outer, 0, 14) {
+        for (k.outer, 0, 192) {
+          tensorized_CONV(tvm_access_ptr(type_annotation(), A, (((y.outer*896) + (x.outer*64)) + (c.outer*8)), 8, 1), tvm_access_ptr(type_annotation(), B, ((c.outer*3072) + (k.outer*2)), 24576, 1), tvm_access_ptr(type_annotation(), C, (((y.outer*5376) + (x.outer*384)) + (k.outer*2)), 2, 3), 1, 1, 1, 1, 1, 1, 1, 1, 0, 7, 15, 14, 24, 2, 2, (bool)1, (bool)0)
+        }
+      }
+    }
+  }
+  for (y.outer.init, 0, 14) {
+    for (x.outer.init, 0, 14) {
+      for (k.outer.init, 0, 192) {
+        store_output(tvm_access_ptr(type_annotation(), C, (((y.outer.init*5376) + (x.outer.init*384)) + (k.outer.init*2)), 2, 3), 1, 1, 1, 1, 0, 15, 14, 24)
+      }
+    }
+  }
+}
+, produce C {
+  // attr [iter_var(n.outer, )] pragma_epilogue = "do_fence"
+  for (y.outer, 0, 2) {
+    for (x.outer, 0, 6) {
+      for (k.outer.init, 0, 64) {
+        init_output(tvm_access_ptr(type_annotation(), C, (((y.outer*27648) + (x.outer*768)) + (k.outer.init*6)), 55296, 2), 1, 1, 1, 1, 0, 14, 10, 31)
+      }
+      for (r.outer, 0, 3) {
+        for (k.outer, 0, 64) {
+          for (s.outer, 0, 3) {
+            for (c.outer, 0, 12) {
+              tensorized_CONV(tvm_access_ptr(type_annotation(), A, (((((y.outer*32256) + (r.outer*5376)) + (x.outer*768)) + (s.outer*384)) + (c.outer*32)), 75264, 1), tvm_access_ptr(type_annotation(), B, ((((c.outer*12288) + (r.outer*1152)) + (s.outer*384)) + (k.outer*6)), 36864, 1), tvm_access_ptr(type_annotation(), C, (((y.outer*27648) + (x.outer*768)) + (k.outer*6)), 55296, 3), 1, 1, 1, 1, 1, 1, 11, 1, 0, 2, 14, 10, 31, 1, 2, (bool)1, (bool)0)
+            }
+          }
+        }
+      }
+      for (k.outer.init, 0, 64) {
+        store_output(tvm_access_ptr(type_annotation(), C, (((y.outer*27648) + (x.outer*768)) + (k.outer.init*6)), 55296, 3), 1, 1, 1, 1, 0, 14, 10, 31)
+      }
+    }
+  }
+}
+, produce C {
+  // attr [iter_var(n.outer, )] pragma_epilogue = "do_fence"
+  for (k.outer.init, 0, 4) {
+    init_output(tvm_access_ptr(type_annotation(), C, (k.outer.init*24), 18816, 2), 1, 1, 2, 48, 0, 2, 8, 0)
+  }
+  for (k.outer, 0, 4) {
+    tensorized_CONV(tvm_access_ptr(type_annotation(), A, 0, 75264, 1), tvm_access_ptr(type_annotation(), B, (k.outer*24), 36864, 1), tvm_access_ptr(type_annotation(), C, (k.outer*24), 18816, 3), 1, 1, 4, 1, 2, 48, 1, 1, 0, 2, 2, 8, 0, 2, 2, (bool)1, (bool)0)
+  }
+  for (k.outer.init, 0, 4) {
+    store_output(tvm_access_ptr(type_annotation(), C, (k.outer.init*24), 18816, 3), 1, 1, 2, 48, 0, 2, 8, 0)
+  }
+}
+, produce C {
+  // attr [iter_var(n.outer, )] pragma_epilogue = "do_fence"
+  for (y.outer, 0, 7) {
+    for (x.outer.init, 0, 2) {
+      for (k.outer.init, 0, 6) {
+        init_output(tvm_access_ptr(type_annotation(), C, (((y.outer*16128) + (x.outer.init*4032)) + (k.outer.init*96)), 112896, 2), 1, 1, 6, 1, 0, 9, 0, 0)
+      }
+    }
+    for (x.outer, 0, 2) {
+      for (k.outer, 0, 6) {
+        for (c.outer, 0, 12) {
+          tensorized_CONV(tvm_access_ptr(type_annotation(), A, (((y.outer*2688) + (x.outer*672)) + (c.outer*8)), 18816, 1), tvm_access_ptr(type_annotation(), B, ((c.outer*4608) + (k.outer*96)), 55296, 1), tvm_access_ptr(type_annotation(), C, (((y.outer*16128) + (x.outer*4032)) + (k.outer*96)), 112896, 3), 1, 1, 1, 1, 6, 1, 1, 1, 0, 2, 9, 0, 0, 2, 2, (bool)1, (bool)0)
+        }
+      }
+    }
+    for (x.outer.init, 0, 2) {
+      for (k.outer.init, 0, 6) {
+        store_output(tvm_access_ptr(type_annotation(), C, (((y.outer*16128) + (x.outer.init*4032)) + (k.outer.init*96)), 112896, 3), 1, 1, 6, 1, 0, 9, 0, 0)
+      }
+    }
+  }
+}
+, produce C {
+  for (y.outer.init, 0, 2) {
+    for (x.outer.init, 0, 6) {
+      for (k.outer.init, 0, 48) {
+        init_output(tvm_access_ptr(type_annotation(), C, (((y.outer.init*41472) + (x.outer.init*1152)) + (k.outer.init*12)), 82944, 2), 1, 1, 1, 1, 0, 14, 4, 15)
+      }
+    }
+  }
+  // attr [iter_var(r.outer, )] pragma_epilogue = "do_fence"
+  for (r.outer, 0, 3) {
+    for (s.outer, 0, 3) {
+      for (y.outer, 0, 2) {
+        for (x.outer, 0, 6) {
+          for (k.outer, 0, 48) {
+            tensorized_CONV(tvm_access_ptr(type_annotation(), A, ((((y.outer*48384) + (r.outer*8064)) + (x.outer*1152)) + (s.outer*576)), 112896, 1), tvm_access_ptr(type_annotation(), B, (((r.outer*1728) + (s.outer*576)) + (k.outer*12)), 6912, 1), tvm_access_ptr(type_annotation(), C, (((y.outer*41472) + (x.outer*1152)) + (k.outer*12)), 82944, 3), 1, 1, 1, 1, 1, 1, 192, 1, 0, 2, 14, 4, 15, 0, 2, (bool)1, (bool)0)
+          }
+        }
+      }
+    }
+  }
+  for (y.outer.init, 0, 2) {
+    for (x.outer.init, 0, 6) {
+      for (k.outer.init, 0, 48) {
+        store_output(tvm_access_ptr(type_annotation(), C, (((y.outer.init*41472) + (x.outer.init*1152)) + (k.outer.init*12)), 82944, 3), 1, 1, 1, 1, 0, 14, 4, 15)
+      }
+    }
+  }
+}
+, produce C {
+  for (y.outer.init, 0, 2) {
+    for (x.outer.init, 0, 14) {
+      for (k.outer.init, 0, 96) {
+        init_output(tvm_access_ptr(type_annotation(), C, (((y.outer.init*9408) + (x.outer.init*96)) + k.outer.init), 18816, 2), 1, 1, 1, 1, 0, 15, 15, 15)
+      }
+    }
+  }
+  // attr [iter_var(r.outer, )] pragma_epilogue = "do_fence"
+  for (c.outer, 0, 9) {
+    for (y.outer, 0, 2) {
+      for (x.outer, 0, 14) {
+        for (k.outer, 0, 96) {
+          tensorized_CONV(tvm_access_ptr(type_annotation(), A, (((y.outer*56448) + (x.outer*576)) + (c.outer*64)), 112896, 1), tvm_access_ptr(type_annotation(), B, ((c.outer*6144) + k.outer), 3538944, 1), tvm_access_ptr(type_annotation(), C, (((y.outer*9408) + (x.outer*96)) + k.outer), 18816, 3), 1, 1, 1, 1, 1, 1, 22, 1, 0, 1, 15, 15, 15, 2, 2, (bool)1, (bool)0)
+        }
+      }
+    }
+  }
+  for (y.outer.init, 0, 2) {
+    for (x.outer.init, 0, 14) {
+      for (k.outer.init, 0, 96) {
+        store_output(tvm_access_ptr(type_annotation(), C, (((y.outer.init*9408) + (x.outer.init*96)) + k.outer.init), 18816, 3), 1, 1, 1, 1, 0, 15, 15, 15)
+      }
+    }
+  }
+}
+, produce C {
+  for (x.outer.init, 0, 2) {
+    for (k.outer.init, 0, 3) {
+      init_output(tvm_access_ptr(type_annotation(), C, ((x.outer.init*4032) + (k.outer.init*192)), 112896, 2), 1, 1, 12, 1, 0, 9, 0, 31)
+    }
+  }
+  // attr [iter_var(r.outer, )] pragma_epilogue = "do_fence"
+  for (c.outer, 0, 4) {
+    for (x.outer, 0, 2) {
+      for (k.outer, 0, 3) {
+        tensorized_CONV(tvm_access_ptr(type_annotation(), A, ((x.outer*672) + (c.outer*24)), 18816, 1), tvm_access_ptr(type_annotation(), B, ((c.outer*13824) + (k.outer*192)), 1327104, 1), tvm_access_ptr(type_annotation(), C, ((x.outer*4032) + (k.outer*192)), 112896, 3), 1, 1, 2, 1, 12, 1, 8, 1, 0, 2, 9, 0, 31, 0, 2, (bool)1, (bool)0)
+      }
+    }
+  }
+  for (x.outer.init, 0, 2) {
+    for (k.outer.init, 0, 3) {
+      store_output(tvm_access_ptr(type_annotation(), C, ((x.outer.init*4032) + (k.outer.init*192)), 112896, 3), 1, 1, 12, 1, 0, 9, 0, 31)
+    }
+  }
+}
+, produce C {
+  for (x.outer.init, 0, 3) {
+    for (k.outer.init, 0, 24) {
+      init_output(tvm_access_ptr(type_annotation(), C, ((x.outer.init*2304) + (k.outer.init*24)), 82944, 2), 1, 1, 2, 3, 0, 12, 8, 3)
+    }
+  }
+  // attr [iter_var(r.outer, )] pragma_epilogue = "do_fence"
+  for (r.outer, 0, 3) {
+    for (c.outer, 0, 64) {
+      for (x.outer, 0, 3) {
+        for (k.outer, 0, 24) {
+          tensorized_CONV(tvm_access_ptr(type_annotation(), A, (((r.outer*8064) + (x.outer*2304)) + (c.outer*9)), 112896, 1), tvm_access_ptr(type_annotation(), B, (((c.outer*5184) + (r.outer*1728)) + (k.outer*24)), 1728, 1), tvm_access_ptr(type_annotation(), C, ((x.outer*2304) + (k.outer*24)), 82944, 3), 1, 1, 1, 1, 2, 3, 1, 1, 0, 4, 12, 8, 3, 2, 0, (bool)1, (bool)0)
+        }
+      }
+    }
+  }
+  for (x.outer.init, 0, 3) {
+    for (k.outer.init, 0, 24) {
+      store_output(tvm_access_ptr(type_annotation(), C, ((x.outer.init*2304) + (k.outer.init*24)), 82944, 3), 1, 1, 2, 3, 0, 12, 8, 3)
+    }
+  }
+}
+, produce C {
+  for (x.outer.init, 0, 7) {
+    for (k.outer.init, 0, 2) {
+      init_output(tvm_access_ptr(type_annotation(), C, ((x.outer.init*192) + (k.outer.init*48)), 18816, 2), 1, 1, 3, 1, 0, 14, 0, 7)
+    }
+  }
+  // attr [iter_var(r.outer, )] pragma_epilogue = "do_fence"
+  for (c.outer, 0, 12) {
+    for (x.outer, 0, 7) {
+      for (k.outer, 0, 2) {
+        tensorized_CONV(tvm_access_ptr(type_annotation(), A, ((x.outer*1152) + (c.outer*48)), 112896, 1), tvm_access_ptr(type_annotation(), B, ((c.outer*4608) + (k.outer*48)), 55296, 1), tvm_access_ptr(type_annotation(), C, ((x.outer*192) + (k.outer*48)), 18816, 3), 1, 1, 4, 1, 3, 1, 1, 16, 0, 2, 14, 0, 7, 2, 0, (bool)1, (bool)0)
+      }
+    }
+  }
+  for (x.outer.init, 0, 7) {
+    for (k.outer.init, 0, 2) {
+      store_output(tvm_access_ptr(type_annotation(), C, ((x.outer.init*192) + (k.outer.init*48)), 18816, 3), 1, 1, 3, 1, 0, 14, 0, 7)
+    }
+  }
+}
+, produce C {
+  for (y.outer.init, 0, 7) {
+    for (k.outer.init, 0, 32) {
+      init_output(tvm_access_ptr(type_annotation(), C, ((y.outer.init*16128) + (k.outer.init*18)), 112896, 2), 1, 1, 2, 1, 0, 2, 14, 3)
+    }
+  }
+  // attr [iter_var(r.outer, )] pragma_epilogue = "do_fence"
+  for (y.outer, 0, 7) {
+    for (c.outer, 0, 24) {
+      for (k.outer, 0, 32) {
+        tensorized_CONV(tvm_access_ptr(type_annotation(), A, ((y.outer*2688) + (c.outer*4)), 18816, 1), tvm_access_ptr(type_annotation(), B, ((c.outer*2304) + (k.outer*18)), 55296, 1), tvm_access_ptr(type_annotation(), C, ((y.outer*16128) + (k.outer*18)), 112896, 3), 1, 1, 1, 1, 2, 1, 1, 2, 0, 14, 2, 14, 3, 2, 2, (bool)1, (bool)0)
+      }
+    }
+  }
+  for (y.outer.init, 0, 7) {
+    for (k.outer.init, 0, 32) {
+      store_output(tvm_access_ptr(type_annotation(), C, ((y.outer.init*16128) + (k.outer.init*18)), 112896, 3), 1, 1, 2, 1, 0, 2, 14, 3)
+    }
+  }
+}
+, produce C {
+  // attr [iter_var(n.outer, )] pragma_epilogue = "do_fence"
+  for (k.outer, 0, 192) {
+    init_output(tvm_access_ptr(type_annotation(), C, (k.outer*3), 28224, 2), 1, 1, 1, 1, 0, 9, 13, 29)
+    for (c.outer, 0, 6) {
+      tensorized_CONV(tvm_access_ptr(type_annotation(), A, (c.outer*96), 129600, 1), tvm_access_ptr(type_annotation(), B, ((c.outer*55296) + (k.outer*3)), 165888, 1), tvm_access_ptr(type_annotation(), C, (k.outer*3), 28224, 3), 1, 1, 1, 1, 1, 1, 32, 1, 0, 1, 9, 13, 29, 0, 0, (bool)1, (bool)0)
+    }
+    store_output(tvm_access_ptr(type_annotation(), C, (k.outer*3), 28224, 3), 1, 1, 1, 1, 0, 9, 13, 29)
+  }
+}
+, produce C {
+  // attr [iter_var(n.outer, )] pragma_epilogue = "do_fence"
+  for (y.outer.init, 0, 7) {
+    for (k.outer.init, 0, 2) {
+      init_output(tvm_access_ptr(type_annotation(), C, ((y.outer.init*1120) + (k.outer.init*80)), 7840, 2), 1, 1, 5, 1, 0, 9, 0, 3)
+    }
+  }
+  for (y.outer, 0, 7) {
+    for (c.outer, 0, 576) {
+      for (k.outer, 0, 2) {
+        tensorized_CONV(tvm_access_ptr(type_annotation(), A, ((y.outer*4032) + c.outer), 28224, 1), tvm_access_ptr(type_annotation(), B, ((c.outer*160) + (k.outer*80)), 80, 1), tvm_access_ptr(type_annotation(), C, ((y.outer*1120) + (k.outer*80)), 7840, 3), 1, 1, 1, 1, 5, 1, 1, 1, 0, 15, 9, 0, 3, 2, 2, (bool)1, (bool)0)
+      }
+    }
+  }
+  for (y.outer.init, 0, 7) {
+    for (k.outer.init, 0, 2) {
+      store_output(tvm_access_ptr(type_annotation(), C, ((y.outer.init*1120) + (k.outer.init*80)), 7840, 3), 1, 1, 5, 1, 0, 9, 0, 3)
+    }
+  }
+}
+, produce C {
+  for (y.outer.init, 0, 7) {
+    for (x.outer.init, 0, 7) {
+      for (k.outer.init, 0, 32) {
+        init_output(tvm_access_ptr(type_annotation(), C, (((y.outer.init*6720) + (x.outer.init*960)) + (k.outer.init*30)), 30, 2), 1, 1, 2, 1, 0, 15, 2, 31)
+      }
+    }
+  }
+  // attr [iter_var(r.outer, )] pragma_epilogue = "do_fence"
+  for (c.outer, 0, 160) {
+    for (y.outer, 0, 7) {
+      for (x.outer, 0, 7) {
+        for (k.outer, 0, 32) {
+          tensorized_CONV(tvm_access_ptr(type_annotation(), A, (((y.outer*1120) + (x.outer*160)) + c.outer), 1, 1), tvm_access_ptr(type_annotation(), B, ((c.outer*960) + (k.outer*30)), 30, 1), tvm_access_ptr(type_annotation(), C, (((y.outer*6720) + (x.outer*960)) + (k.outer*30)), 30, 3), 1, 1, 1, 1, 2, 1, 1, 1, 0, 7, 15, 2, 31, 2, 2, (bool)1, (bool)0)
+        }
+      }
+    }
+  }
+  for (y.outer.init, 0, 7) {
+    for (x.outer.init, 0, 7) {
+      for (k.outer.init, 0, 32) {
+        store_output(tvm_access_ptr(type_annotation(), C, (((y.outer.init*6720) + (x.outer.init*960)) + (k.outer.init*30)), 30, 3), 1, 1, 2, 1, 0, 15, 2, 31)
+      }
+    }
+  }
+}
+, produce C {
+  for (k.outer.init, 0, 8) {
+    init_output(tvm_access_ptr(type_annotation(), C, (k.outer.init*120), 24000, 2), 1, 1, 8, 3, 0, 11, 8, 0)
+  }
+  // attr [iter_var(r.outer, )] pragma_epilogue = "do_fence"
+  for (c.outer, 0, 20) {
+    for (k.outer, 0, 8) {
+      tensorized_CONV(tvm_access_ptr(type_annotation(), A, (c.outer*48), 47040, 1), tvm_access_ptr(type_annotation(), B, ((c.outer*46080) + (k.outer*120)), 8640, 1), tvm_access_ptr(type_annotation(), C, (k.outer*120), 24000, 3), 1, 1, 1, 1, 8, 3, 1, 1, 0, 3, 11, 8, 0, 0, 0, (bool)1, (bool)0)
+    }
+  }
+  for (k.outer.init, 0, 8) {
+    store_output(tvm_access_ptr(type_annotation(), C, (k.outer.init*120), 24000, 3), 1, 1, 8, 3, 0, 11, 8, 0)
+  }
+}
+, produce C {
+  // attr [iter_var(n.outer, )] pragma_epilogue = "do_fence"
+  for (y.outer, 0, 7) {
+    for (x.outer, 0, 7) {
+      for (k.outer.init, 0, 40) {
+        init_output(tvm_access_ptr(type_annotation(), C, (((y.outer*1120) + (x.outer*160)) + (k.outer.init*4)), 4, 2), 1, 1, 1, 1, 0, 15, 12, 3)
+      }
+      for (k.outer, 0, 40) {
+        tensorized_CONV(tvm_access_ptr(type_annotation(), A, ((y.outer*6720) + (x.outer*960)), 960, 1), tvm_access_ptr(type_annotation(), B, (k.outer*4), 147456000, 1), tvm_access_ptr(type_annotation(), C, (((y.outer*1120) + (x.outer*160)) + (k.outer*4)), 4, 3), 1, 1, 1, 1, 1, 1, 320, 1, 0, 15, 15, 12, 3, 0, 2, (bool)1, (bool)0)
+      }
+      for (k.outer.init, 0, 40) {
+        store_output(tvm_access_ptr(type_annotation(), C, (((y.outer*1120) + (x.outer*160)) + (k.outer.init*4)), 4, 3), 1, 1, 1, 1, 0, 15, 12, 3)
+      }
+    }
+  }
+}
+, produce C {
+  // attr [iter_var(n.outer, )] pragma_epilogue = "do_fence"
+  for (k.outer, 0, 16) {
+    init_output(tvm_access_ptr(type_annotation(), C, (k.outer*60), 47040, 2), 1, 1, 4, 1, 0, 9, 4, 22)
+    for (c.outer, 0, 16) {
+      tensorized_CONV(tvm_access_ptr(type_annotation(), A, (c.outer*10), 7840, 1), tvm_access_ptr(type_annotation(), B, ((c.outer*9600) + (k.outer*60)), 153600, 1), tvm_access_ptr(type_annotation(), C, (k.outer*60), 47040, 3), 1, 1, 1, 1, 4, 1, 1, 1, 0, 1, 9, 4, 22, 2, 2, (bool)1, (bool)0)
+    }
+    store_output(tvm_access_ptr(type_annotation(), C, (k.outer*60), 47040, 3), 1, 1, 4, 1, 0, 9, 4, 22)
+  }
+}
+, produce C {
+  // attr [iter_var(n.outer, )] pragma_epilogue = "do_fence"
+  for (y.outer.init, 0, 5) {
+    for (k.outer.init, 0, 32) {
+      init_output(tvm_access_ptr(type_annotation(), C, ((y.outer.init*4800) + (k.outer.init*30)), 24000, 2), 1, 1, 2, 1, 0, 11, 2, 13)
+    }
+  }
+  for (y.outer, 0, 5) {
+    for (c.outer, 0, 160) {
+      for (k.outer, 0, 32) {
+        tensorized_CONV(tvm_access_ptr(type_annotation(), A, ((y.outer*6720) + (c.outer*6)), 47040, 1), tvm_access_ptr(type_annotation(), B, ((c.outer*5760) + (k.outer*30)), 17280, 1), tvm_access_ptr(type_annotation(), C, ((y.outer*4800) + (k.outer*30)), 24000, 3), 1, 1, 1, 1, 2, 1, 2, 1, 0, 7, 11, 2, 13, 0, 0, (bool)1, (bool)0)
+      }
+    }
+  }
+  for (y.outer.init, 0, 5) {
+    for (k.outer.init, 0, 32) {
+      store_output(tvm_access_ptr(type_annotation(), C, ((y.outer.init*4800) + (k.outer.init*30)), 24000, 3), 1, 1, 2, 1, 0, 11, 2, 13)
+    }
+  }
+}
+, produce C {
+  // attr [iter_var(n.outer, )] pragma_epilogue = "do_fence"
+  for (k.outer, 0, 20) {
+    init_output(tvm_access_ptr(type_annotation(), C, (k.outer*8), 7840, 2), 1, 1, 1, 1, 0, 9, 8, 3)
+    for (c.outer, 0, 2) {
+      tensorized_CONV(tvm_access_ptr(type_annotation(), A, (c.outer*480), 47040, 1), tvm_access_ptr(type_annotation(), B, ((c.outer*76800) + (k.outer*8)), 73728000, 1), tvm_access_ptr(type_annotation(), C, (k.outer*8), 7840, 3), 1, 1, 1, 1, 1, 1, 160, 1, 0, 9, 9, 8, 3, 0, 2, (bool)1, (bool)0)
+    }
+    store_output(tvm_access_ptr(type_annotation(), C, (k.outer*8), 7840, 3), 1, 1, 1, 1, 0, 9, 8, 3)
+  }
+}
+, produce C {
+  // attr [iter_var(n.outer, )] pragma_epilogue = "do_fence"
+  for (y.outer, 0, 7) {
+    for (k.outer.init, 0, 6) {
+      init_output(tvm_access_ptr(type_annotation(), C, ((y.outer*6720) + (k.outer.init*160)), 47040, 2), 1, 1, 10, 1, 0, 9, 0, 7)
+    }
+    for (k.outer, 0, 6) {
+      for (c.outer, 0, 160) {
+        tensorized_CONV(tvm_access_ptr(type_annotation(), A, ((y.outer*1120) + c.outer), 7840, 1), tvm_access_ptr(type_annotation(), B, ((c.outer*960) + (k.outer*160)), 160, 1), tvm_access_ptr(type_annotation(), C, ((y.outer*6720) + (k.outer*160)), 47040, 3), 1, 1, 1, 1, 10, 1, 1, 1, 0, 3, 9, 0, 7, 2, 2, (bool)1, (bool)0)
+      }
+    }
+    for (k.outer.init, 0, 6) {
+      store_output(tvm_access_ptr(type_annotation(), C, ((y.outer*6720) + (k.outer.init*160)), 47040, 3), 1, 1, 10, 1, 0, 9, 0, 7)
+    }
+  }
+}
+, produce C {
+  // attr [iter_var(n.outer, )] pragma_epilogue = "do_fence"
+  for (x.outer.init, 0, 5) {
+    for (k.outer.init, 0, 32) {
+      init_output(tvm_access_ptr(type_annotation(), C, ((x.outer.init*960) + (k.outer.init*30)), 24000, 2), 1, 1, 2, 1, 0, 15, 2, 29)
+    }
+  }
+  for (x.outer, 0, 5) {
+    for (k.outer, 0, 32) {
+      for (c.outer, 0, 15) {
+        tensorized_CONV(tvm_access_ptr(type_annotation(), A, ((x.outer*960) + (c.outer*64)), 47040, 1), tvm_access_ptr(type_annotation(), B, ((c.outer*61440) + (k.outer*30)), 184320, 1), tvm_access_ptr(type_annotation(), C, ((x.outer*960) + (k.outer*30)), 24000, 3), 1, 1, 1, 1, 2, 1, 22, 1, 0, 3, 15, 2, 29, 2, 0, (bool)1, (bool)0)
+      }
+    }
+  }
+  for (x.outer.init, 0, 5) {
+    for (k.outer.init, 0, 32) {
+      store_output(tvm_access_ptr(type_annotation(), C, ((x.outer.init*960) + (k.outer.init*30)), 24000, 3), 1, 1, 2, 1, 0, 15, 2, 29)
+    }
+  }
+}
+, produce C {
+  for (x.outer.init, 0, 7) {
+    for (k.outer.init, 0, 4) {
+      init_output(tvm_access_ptr(type_annotation(), C, ((x.outer.init*320) + (k.outer.init*80)), 15680, 2), 1, 1, 5, 1, 0, 15, 0, 7)
+    }
+  }
+  // attr [iter_var(r.outer, )] pragma_epilogue = "do_fence"
+  for (c.outer, 0, 12) {
+    for (x.outer, 0, 7) {
+      for (k.outer, 0, 4) {
+        tensorized_CONV(tvm_access_ptr(type_annotation(), A, ((x.outer*960) + (c.outer*80)), 47040, 1), tvm_access_ptr(type_annotation(), B, ((c.outer*25600) + (k.outer*80)), 24576000, 1), tvm_access_ptr(type_annotation(), C, ((x.outer*320) + (k.outer*80)), 15680, 3), 1, 1, 2, 1, 5, 1, 27, 1, 0, 1, 15, 0, 7, 1, 2, (bool)1, (bool)0)
+      }
+    }
+  }
+  for (x.outer.init, 0, 7) {
+    for (k.outer.init, 0, 4) {
+      store_output(tvm_access_ptr(type_annotation(), C, ((x.outer.init*320) + (k.outer.init*80)), 15680, 3), 1, 1, 5, 1, 0, 15, 0, 7)
+    }
+  }
+}
+, produce C {
+  for (x.outer.init, 0, 7) {
+    for (k.outer.init, 0, 5) {
+      init_output(tvm_access_ptr(type_annotation(), C, ((x.outer.init*1280) + (k.outer.init*256)), 62720, 2), 1, 1, 16, 1, 0, 15, 0, 6)
+    }
+  }
+  // attr [iter_var(r.outer, )] pragma_epilogue = "do_fence"
+  for (c.outer, 0, 160) {
+    for (x.outer, 0, 7) {
+      for (k.outer, 0, 5) {
+        tensorized_CONV(tvm_access_ptr(type_annotation(), A, ((x.outer*320) + (c.outer*2)), 15680, 1), tvm_access_ptr(type_annotation(), B, ((c.outer*2560) + (k.outer*256)), 409600, 1), tvm_access_ptr(type_annotation(), C, ((x.outer*1280) + (k.outer*256)), 62720, 3), 1, 1, 2, 1, 16, 1, 1, 1, 0, 1, 15, 0, 6, 2, 2, (bool)1, (bool)0)
+      }
+    }
+  }
+  for (x.outer.init, 0, 7) {
+    for (k.outer.init, 0, 5) {
+      store_output(tvm_access_ptr(type_annotation(), C, ((x.outer.init*1280) + (k.outer.init*256)), 62720, 3), 1, 1, 16, 1, 0, 15, 0, 6)
+    }
+  }
+}
+, produce C {
+  // attr [iter_var(n.outer, )] pragma_epilogue = "do_fence"
+  for (y.outer, 0, 2) {
+    init_output(tvm_access_ptr(type_annotation(), C, (y.outer*500), 500, 2), 1, 1, 1, 1, 0, 15, 15, 15)
+    for (c.outer, 0, 128) {
+      tensorized_CONV(tvm_access_ptr(type_annotation(), A, ((y.outer*640000) + (c.outer*10)), 1280000, 1), tvm_access_ptr(type_annotation(), B, (c.outer*10), 100, 1), tvm_access_ptr(type_annotation(), C, (y.outer*500), 500, 3), 1, 1, 63, 1, 1, 1, 4, 1, 0, 4, 15, 15, 15, 2, 2, (bool)1, (bool)0)
+    }
+    store_output(tvm_access_ptr(type_annotation(), C, (y.outer*500), 500, 3), 1, 1, 1, 1, 0, 15, 15, 15)
+  }
+}
+]
