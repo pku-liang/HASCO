@@ -74,5 +74,5 @@ if __name__ == "__main__":
 
     print(f"[HASCO] Testing accelerators with {args.intrinsic} intrinsic ...")
     codesign(benchmark, generator, args.method,
-             constraints, init_size=args.init, trial_num=args.trail)
+             constraints, init_size=args.init, trial_num=args.iter)
     print("[HASCO] Passed.")
