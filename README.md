@@ -49,12 +49,14 @@ This version evaluates HASCO-generated solutions with the Maestro tool. We can a
 
 If you find HASCO useful for your project, please cite our paper. 
 ```
-@inproceedings{xiao2021,
-  title={{HASCO: Towards Agile HArdware and Software CO-design for Tensor Computation}},
+@INPROCEEDINGS{xiao2021hasco,
   author={Xiao, Qingcheng and Zheng, Size and Wu, Bingzhe and Xu, Pengcheng and Qian, Xuehai and Liang, Yun},
-  booktitle={2021 ACM/IEEE 48th Annual International Symposium on Computer Architecture (ISCA)},
+  booktitle={2021 ACM/IEEE 48th Annual International Symposium on Computer Architecture (ISCA)}, 
+  title={HASCO: Towards Agile HArdware and Software CO-design for Tensor Computation}, 
   year={2021},
-  organization={IEEE}
-}
+  volume={},
+  number={},
+  pages={1055-1068},
+  doi={10.1109/ISCA52012.2021.00086}} 
 ```
 You can also find the arxiv version [here](https://arxiv.org/abs/2105.01585). 
